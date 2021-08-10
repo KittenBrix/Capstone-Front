@@ -1,0 +1,23 @@
+$size : 7vh;
+#header {
+    height: $size;
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+}
+#header-clear-fix{
+    height: $size;
+}
+.logo {
+    height: $size - 2;
+    margin: 0px;
+    // margin-top: 10px;
+}
+#logolink {
+    margin: 0px;
+    padding: 0px;
+}
+.searchBar{
+    width: 20vw;
+    height: $size - 2;
+    min-width: 100px;
+}

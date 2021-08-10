@@ -1,0 +1,27 @@
+$red: 255;
+$green: 190;
+$blue: 240;
+#uwu{
+    height: 88vh;
+    // flex-grow: 1;
+    background-image: url('../../assets/images/uwu.webp');
+    background-color: rgba($red,$green,$blue,1) !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+#card404{
+    // border-radius: 10em;
+    background-color: rgba($red/4,$green/4,$blue/4,0.8) !important;
+    color: white;
+}
+.cover {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+}
+
+* {
+    color: white;
+}

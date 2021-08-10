@@ -6,10 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login-register.component.scss']
 })
 export class LoginRegisterComponent implements OnInit {
-
+  login:boolean = true;
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }
