@@ -1,0 +1,5 @@
+<h1>Practice for ngFor and ngIf</h1>
+<p>ngFor loops create components in the dom once fore every element in the expression. for example, using *ngFor="let i of items" would place each element in `items` in to i.</p>
+<div *ngFor="let i of items; let myIndex = index; " style="border-style: solid; border-width: 2px; margin: 4px;">
+    <p [ngStyle]="{'background-color':myCol(myIndex)}">{{myIndex}}-{{i}}</p>
+</div>

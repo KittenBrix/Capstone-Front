@@ -1,0 +1,13 @@
+<div class="container-fluid">
+    <div class="row d-flex flex-row">
+        <ng-container *ngFor="let field of fields; index as i">
+            <mat-form-field appearance="outline" class="col flex-grow-1">
+                <mat-label>{{field}}</mat-label>
+                <input matInput [placeholder]="field" [type]="field" [(ngModel)]="_data[field]">
+            </mat-form-field>
+        </ng-container>
+        <div class="col form-field-adjust flex-shrink-1" >
+            <button class="btn btn-success" (click)="create()">Add</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+$col : #ffc8f0;
+.form-field-adjust{
+    padding-bottom: 1.34375em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    max-width: min-content;
+    min-width: min-content;
+    width: min-content;
+}
+button{
+    height: 100%;
+}
+.container-fluid{
+ padding: 1em;
+ border-style: solid;
+ border-width: 2px;
+ border-radius: 1em;   
+ border-color: darken($col, 5%);
+}

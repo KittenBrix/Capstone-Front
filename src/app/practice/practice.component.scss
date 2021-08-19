@@ -1,0 +1,10 @@
+$ourColorComrade : rgb(159, 0, 0);
+.odd {
+    color: white;
+    background-color: $ourColorComrade;
+}
+
+.even {
+    color: $ourColorComrade;
+    background-color: white;
+}

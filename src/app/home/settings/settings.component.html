@@ -1,0 +1,17 @@
+<div id="content" class="container-fluid">
+    <div id="account-actions" class="row">
+        <div id="contact-bank" class="col-md-4">
+            <!-- change account contact items (email/phone) -->
+            <app-data-list [datalist]="phones">
+            </app-data-list>
+            <app-data-list [datalist]="emails">
+            </app-data-list>
+        </div>
+        <div id="account-settings" class="col-md-8">
+            <!-- change base account stuff -->
+        </div>
+    </div>
+    <div id="roles" class="row">
+        <app-roles></app-roles>
+    </div>
+</div>

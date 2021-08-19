@@ -1,11 +1,46 @@
 <div id="content" class="container-fluid">
     <div class="row expandH">
         <div class="col expandH center">
-            <div *ngIf="!login" class="card">
-                
-            </div>
-            <div *ngIf="login" class="card">
-                
+            <div class="card text-light bg-dark expandW" [ngClass]="{'load':loading}">
+                <form action="submit">
+                    <div class="mb-2 row">
+                        <label for="username" class="col-md-2 col-form-label">username</label>
+                        <div class="col-md-10">
+                        <input type="text" class="form-control bg-dark text-light" id="username" [(ngModel)]="_username" name="username" required>
+                        </div>
+                    </div>
+                    <div class="mb-2 row" *ngIf="!login">
+                        <label for="firstname" class="col-md-2 col-form-label">firstname</label>
+                        <div class="col-md-10">
+                        <input type="text" class="form-control bg-dark text-light" id="firstname" [(ngModel)]="_firstname" name="firstname" >
+                        </div>
+                    </div>
+                    <div class="mb-2 row" *ngIf="!login">
+                        <label for="lastname" class="col-md-2 col-form-label">lastname</label>
+                        <div class="col-md-10">
+                        <input type="text" class="form-control bg-dark text-light" id="lastname" [(ngModel)]="_lastname" name="lastname">
+                        </div>
+                    </div>
+                    <div class="mb-2 row">
+                        <label for="password" class="col-md-2 col-form-label">password</label>
+                        <div class="col-md-10">
+                        <input type="password" class="form-control bg-dark text-light" id="password" [(ngModel)]="_password" name="password" required>
+                        </div>
+                    </div>
+                    <div class="mb-2 row" *ngIf="!login">
+                        <label for="confirm" class="col-md-2 col-form-label">confirm password</label>
+                        <div class="col-md-10">
+                        <input type="password" class="form-control bg-dark text-light" id="confirm" [(ngModel)]="_confirm" name="confirm" required>
+                        </div>
+                    </div>
+                    <div class="mt-2 row mx-auto">
+                        <p style="color: rgb(255,50,50); font-size: large; margin: 0px;" >{{_error}}</p>
+                    </div>
+                    <div class="mt-1 row">
+                        <input class="btn btn-dark col m-1" type="button" (click)="login = !login" [value]="login?'Need to register?':'Need to sign in?'" [disabled]="loading">
+                        <input class="btn btn-success col m-1" type="submit" (click)="submit()" [value]="login?'SIGN IN':'REGISTER'" [disabled]='loading'>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
