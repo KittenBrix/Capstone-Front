@@ -7,6 +7,7 @@ import { Auth } from 'app/services/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  // TODO restructure html to use mat-menu instead of bootstrap dropdown.
   constructor(private authService: Auth) {
 
   }

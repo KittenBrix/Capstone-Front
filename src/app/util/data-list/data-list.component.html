@@ -1,6 +1,7 @@
 <div class="content d-flex align-items-center flex-column expandW justify-content-center">
     <h1>{{contentType}}</h1>
-    <app-data-entry (submit)="add($event)" [fields]="describeData()" class="expandW"></app-data-entry>
+    <ng-content ></ng-content>
+    <!-- <app-data-entry (submit)="add($event)" [fields]="describeData()" class="expandW"></app-data-entry> -->
     <!-- <hr> -->
     <div id="table-container" class="expandW" *ngIf="getDataList().length > 0">
         <table mat-table id="data-table" [dataSource]="getDataList()" class="">
@@ -11,7 +12,7 @@
             <ng-container matColumnDef="action">
                 <th shrink mat-header-cell *matHeaderCellDef> Delete </th>   
                 <td shrink mat-cell *matCellDef="let element"> 
-                    <button class="btn text-danger" (click)="remove(element)">
+                    <button *ngIf="removable(element)" class="btn text-danger list-button" (click)="remove(element)">
                         <mat-icon aria-hidden="false" aria-label="Example home icon">delete_forever</mat-icon>
                     </button>
                     

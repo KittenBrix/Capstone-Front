@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -6,25 +6,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  stuff: any[] = [];
+  currentContent:string = "Dashboard"; //use service to retrieve in future. TODO 
   constructor() {
-    for (let i = 0; i < 10 ; i++){
-      this.stuff.push(new randomClassName(11-i, `the element ${i}`,i));
-    }
+    
   }
 
   ngOnInit(): void {
   }
-
-}
-
-class randomClassName {
-  value:number|null;
-  name:string|null;
-  index:number|null;
-  constructor(value?:number, name?:string, index?:number){
-    this.value = value ?? null;
-    this.name = name ?? null;
-    this.index = index ?? null;
+  @HostListener('window:resize', ['$event'])
+  onResize(event:any) {
+    // this.innerWidth = window.innerWidth;
+    console.log(`event: ${window.innerWidth}`);
   }
+
+  expanded(){
+    console.log(`expand: ${window.innerWidth}`);
+    return window.innerWidth >= 768;
+  }
+  getClasses(){
+    const content: any = {};
+    content['col-md-2'] = this.expanded();
+    content['as-menu expandW d-flex flex-row-reverse'] = !this.expanded();
+    return content;
+  }
+
+  
 }

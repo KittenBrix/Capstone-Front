@@ -1,13 +1,6 @@
-import { AfterViewInit } from '@angular/core';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-
-
-export interface DataChangeEvent {
-  type: 'add' | 'delete' | 'edit';
-  content: any;
-  index: number;
-}
+import { DataChangeEvent } from 'app/common/types';
 
 
 
@@ -16,11 +9,17 @@ export interface DataChangeEvent {
   templateUrl: './data-list.component.html',
   styleUrls: ['./data-list.component.scss']
 })
-export class DataListComponent implements OnInit, OnChanges, AfterViewInit {
+export class DataListComponent implements OnInit, OnChanges {
   @Input()
   contentType: string = '';
   @Input()
+  fields: string[] =[];
+  @Input()
   datalist: any[] = [];
+  @Input('canEditCallback')
+  canEdit: (arg:any)=>boolean = (x:any)=>{return true;};
+  @Input('canDeleteCallback')
+  canDelete: (arg:any)=>boolean = (x:any)=>{return true;};
   
   @Output() 
   dataChanged = new EventEmitter<DataChangeEvent>();
@@ -37,20 +36,7 @@ export class DataListComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.datalist && this.datalist.length && !this.contentType){
       this.contentType = this.datalist[0].constructor.name;
     }
-    this.displayedColumns = [...this.describeData(),'action'];
-  }
-
-  ngAfterViewInit(){
-    // this.table = 
-  }
-
-  add(data:any): void {
-    // add data to datalist
-    this.dataChanged.emit({
-      type: 'add',
-      content: data,
-      index: this.datalist.push(data)
-    });
+    this.displayedColumns = [...this.describeData(), 'action'];
     if (this.table){
       this.table.renderRows();
     }
@@ -61,7 +47,7 @@ export class DataListComponent implements OnInit, OnChanges, AfterViewInit {
     const index = this.datalist.indexOf(item);
     if (index >= 0){
       // remove item from datalist at given index.
-      const value = this.datalist.splice(index,1);
+      const value = this.datalist[index];
       this.dataChanged.emit({
         type: 'delete',
         content: value,
@@ -77,7 +63,11 @@ export class DataListComponent implements OnInit, OnChanges, AfterViewInit {
   
   describeData(): string[] {
     const result: string[] = [];
-    if (this.datalist.length){
+    if (this.fields.length){
+      for (const item of this.fields){
+        result.push(item);
+      }
+    } else if (this.datalist.length){
       for (const key of Object.keys(this.datalist[0])){
         try{
           (Number.isNaN(Number(key))) ? result.push(key): undefined; 
@@ -85,7 +75,8 @@ export class DataListComponent implements OnInit, OnChanges, AfterViewInit {
           result.push(key);
         }
       }
-    }
+      this.fields = result;
+    } 
     return result;
   }
 
@@ -93,4 +84,8 @@ export class DataListComponent implements OnInit, OnChanges, AfterViewInit {
     return this.datalist;
   }
 
+
+  removable(element: any): boolean{
+    return this.canDelete(element);
+  }
 }

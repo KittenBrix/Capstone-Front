@@ -1,19 +1,3 @@
-<!-- <div id="header" class="navbar navbar-expand-xs expandW">
-    <div class="container-fluid expandH ">
-        <div class="row expandH">
-            <div class="col d-flex justify-content-between expandW expandH align-items-center">
-                <img id="logo" src="../../assets/images/logo-generic.png" alt="">
-                <div id="search" *ngIf="roleId() >= 5">
-                    
-                </div>
-                <div id="settings" *ngIf="!loggedIn()">
-                    
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div> -->
 <nav id="header" class="navbar navbar-expand navbar-dark bg-dark expandW">
     <div class="container-fluid expandH expandW">
         <a id="logolink" class="navbar-brand" href="#">
@@ -23,8 +7,7 @@
         <div class="d-none d-sm-block"style="flex-grow: 1;"></div>
         <input *ngIf="!(roleId() >= 5)" class="searchBar form-control rounded bg-dark text-light d-sm-block d-none" type="search" placeholder="Search" (keydown.enter)="search($event)">
         <ul class="navbar-nav" *ngIf="!loggedIn()">
-        <li class="nav-item dropdown" >
-            
+        <li id="userMenu" class="nav-item dropdown" >
             <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img class="logo" src="../../assets/images/profile2.png" alt="">
             </a>
@@ -37,9 +20,6 @@
                 <li ><a class="dropdown-item" style="color: red;" href="#" (click)="logout()">Log Out</a></li>
             </ul>
         </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li> -->
         </ul>
       <!-- </div> -->
     </div>

@@ -1,13 +1,35 @@
-<div class="container-fluid">
-    <div class="row d-flex flex-row">
-        <ng-container *ngFor="let field of fields; index as i">
-            <mat-form-field appearance="outline" class="col flex-grow-1">
-                <mat-label>{{field}}</mat-label>
-                <input matInput [placeholder]="field" [type]="field" [(ngModel)]="_data[field]">
-            </mat-form-field>
-        </ng-container>
-        <div class="col form-field-adjust flex-shrink-1" >
-            <button class="btn btn-success" (click)="create()">Add</button>
+<form class="expandW">
+    <div class="container-fluid">
+        <div class="row d-flex flex-row">
+            <ng-container *ngFor="let field of fields; index as i">
+                <mat-form-field appearance="outline" class="col flex-grow-1">
+                    <mat-label>{{field}}</mat-label>
+                    <input matInput 
+                        [placeholder]="field" 
+                        [type]="typeOf(field)" 
+                        [(ngModel)]="model[field]" 
+                        [formControl]="get(field)"
+                        [name]="field">
+                    <mat-error *ngIf="getErrorMessage(field)">{{getErrorMessage(field)}}</mat-error>
+                </mat-form-field>  
+            </ng-container>
+            <ng-container *ngFor="let field of dropdownfields; index as i">
+                <mat-form-field appearance="outline" class="col flex-grow-1">
+                    <mat-label>{{field.name}}</mat-label>
+                    <mat-select
+                        [name]="field.name"
+                        [(ngModel)]="model[field.name]"
+                        required>
+                        <mat-option 
+                            *ngFor="let val of field.options"
+                            [value]="val"
+                            >{{val}}</mat-option>
+                    </mat-select>
+                </mat-form-field>  
+            </ng-container>
+            <div class="col form-field-adjust flex-shrink-1" >
+                <button class="btn btn-success" (click)="create()" [disabled]="!valid()">Add</button>
+            </div>
         </div>
     </div>
-</div>
+</form>

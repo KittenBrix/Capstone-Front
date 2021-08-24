@@ -2,13 +2,72 @@
     <div id="account-actions" class="row">
         <div id="contact-bank" class="col-md-4">
             <!-- change account contact items (email/phone) -->
-            <app-data-list [datalist]="phones">
+            <app-data-list [canEditCallback]="defaultEdit" [canDeleteCallback]="defaultDelete" [datalist]="phones" [contentType]="'Phones'" [fields]="describePhones()" (dataChanged)="change(phones,$event)">
+                <app-data-entry (creation)="add($event, phones)" [fields]="phoneFields" [dropdownfields]="phoneDropDowns" class="expandW"></app-data-entry>
             </app-data-list>
-            <app-data-list [datalist]="emails">
+            <app-data-list [datalist]="emails" [contentType]="'Emails'" [fields]="describeEmails()" (dataChanged)="change(emails,$event)">
+                <app-data-entry (creation)="add($event, emails)" [fields]="emailFields" [dropdownfields]="emailDropDowns" class="expandW"></app-data-entry>
             </app-data-list>
         </div>
-        <div id="account-settings" class="col-md-8">
+        <div id="account-settings" class="col-md-8 d-flex flex-column align-items-center table-container">
             <!-- change base account stuff -->
+            <h1>Account Settings</h1>
+            <div class="expandW">
+                <form [formGroup]="nameForm" (ngSubmit)="submitNameForm()" class="expandW">
+                    <div class="form-group expandW">
+                        <mat-form-field appearance="outline">
+                            <mat-label>First Name</mat-label>
+                            <input formControlName="firstName" 
+                            matInput placeholder="First Name">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Last Name</mat-label>
+                            <input formControlName="lastName" 
+                            matInput placeholder="Last Name">
+                        </mat-form-field>
+                        <button class="btn text-success" type="submit">
+                            <mat-icon aria-hidden="false" aria-label="Example home icon">save</mat-icon>
+                        </button>
+                    </div>
+                </form>
+                <hr>
+                <form [formGroup]="defaultsForm" (ngSubmit)="submitDefaultsForm()" class="expandW">
+                    <div class="form-group expandW ">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Primary/Recovery Email</mat-label>
+                            <mat-select formControlName="email" matInput>
+                                <mat-option *ngFor="let email of emails" value="email">{{email.email}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Primary/Recovery Phone</mat-label>
+                            <mat-select formControlName="phone" matInput>
+                                <mat-option *ngFor="let phone of phones" value="email">{{phone.phone}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Clockify Email</mat-label>
+                            <mat-select formControlName="clockify" matInput>
+                                <mat-option *ngFor="let email of emails" value="email">{{email.email}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Google Email</mat-label>
+                            <mat-select formControlName="google" matInput>
+                                <mat-option *ngFor="let email of emails" value="email">{{email.email}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Discord Name and Pin (YourTag#0000)</mat-label>
+                            <input formControlName="discord" 
+                            matInput placeholder="YourTag#0000">
+                        </mat-form-field>
+                        <button class="btn text-success" type="submit">
+                            <mat-icon aria-hidden="false" aria-label="Save Defaults icon">save</mat-icon>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
     <div id="roles" class="row">
