@@ -1,10 +1,13 @@
 <mat-form-field appearance="outline" class="text-light bg-dark expandW">
     <mat-label class="text-light bg-dark">Cohort Selection</mat-label>
-    <mat-select *ngIf="getCohorts().length" class="text-light bg-dark">
+    <mat-select *ngIf="getCohorts().length" class="text-light bg-dark expandW">
       <mat-option *ngFor="let value of getCohorts()" [value]="value" class="text-light bg-dark">
         {{value}}
       </mat-option>
     </mat-select>
 </mat-form-field>
-<input type="button" value="Hello" class="btn btn-primary" >
-<a class="link-primary">Primary link</a>
+<div class="expandW link-hover" *ngFor="let location of contentSelectors" (click)="goTo(location)">
+    <a [ngClass]="getClass(location)">
+        <h3> {{location}}</h3>
+    </a>
+</div>

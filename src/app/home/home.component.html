@@ -6,7 +6,7 @@
                 <button mat-icon-button [matMenuTriggerFor]="menu" class="btn btn-dark">
                     Cohort: 216 - {{currentContent}}
                 </button>
-                <mat-menu #menu="matMenu" class="text-light bg-dark">
+                <mat-menu id="navigation-menu" #menu="matMenu" class="text-light bg-dark">
                     <app-cohort-navigator></app-cohort-navigator>
                 </mat-menu>
             </ng-container>

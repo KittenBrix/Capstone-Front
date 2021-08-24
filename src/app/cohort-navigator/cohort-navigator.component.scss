@@ -9,3 +9,12 @@
 ::ng-deep.mat-form-field-outline{
     color:white !important;
 }
+
+.link-hover {
+    padding-left: 0.5em;
+}
+.link-hover:hover{
+    background-color: rgba($color: #FFFFFF, $alpha: 0.2);
+    border-radius: 1em;
+    color: rebeccapurple;
+}

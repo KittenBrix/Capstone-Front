@@ -8,9 +8,9 @@ import { userRole } from 'app/common/types';
 })
 export class CohortNavigatorComponent implements OnInit {
 
-  currentContent: string = 'Home';
+  currentContent: string = 'Dashboard';
   contentSelectors: string[] = [
-    'Home',
+    'Dashboard',
     'People',
     'Schedule',
     'Attendance',
@@ -35,10 +35,19 @@ export class CohortNavigatorComponent implements OnInit {
 
   // tell service which dashboard we want to work with.
   goTo(value:string){
-    if (value == 'gClass'){
-      // open new tab and navigate to current cohort's view.
+    // if (value == 'gClass'){
+    //   // open new tab and navigate to current cohort's view.
+    // }
+    if (this.contentSelectors.includes(value)){
+      this.currentContent = value;
     }
   }
 
+  getClass(location:string){
+    console.log(location)
+    const content: any = {    };
+    content[`${(location === this.currentContent) ? 'link-primary' : 'link-light'}`] = true;
+    return content;
+  }
 
 }
