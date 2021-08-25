@@ -6,8 +6,8 @@
       </mat-option>
     </mat-select>
 </mat-form-field>
-<div class="expandW link-hover" *ngFor="let location of contentSelectors" (click)="goTo(location)">
+<div class="expandW link-hover" *ngFor="let location of homeViewService.getNavigationOptions()" (click)="goTo(location)">
     <a [ngClass]="getClass(location)">
-        <h3> {{location}}</h3>
+        <h3>{{location}}</h3>
     </a>
 </div>

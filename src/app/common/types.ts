@@ -32,8 +32,6 @@ export enum userRoleEnum {
     'owner' = 8
 }
 
-
-
 export interface DataChangeEvent {
     type: 'add' | 'delete' | 'edit';
     content: any;

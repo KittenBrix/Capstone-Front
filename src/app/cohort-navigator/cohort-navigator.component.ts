@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { userRole } from 'app/common/types';
+import { HomeViewService } from 'app/util/home-view.service';
 
 @Component({
   selector: 'app-cohort-navigator',
@@ -8,16 +9,10 @@ import { userRole } from 'app/common/types';
 })
 export class CohortNavigatorComponent implements OnInit {
 
-  currentContent: string = 'Dashboard';
-  contentSelectors: string[] = [
-    'Dashboard',
-    'People',
-    'Schedule',
-    'Attendance',
-    'Recordings',
-    'gClass'
-  ];
-  constructor() { }
+  constructor(
+    public homeViewService: HomeViewService
+  ) {
+  }
 
   ngOnInit(): void {
   }
@@ -34,19 +29,13 @@ export class CohortNavigatorComponent implements OnInit {
   }
 
   // tell service which dashboard we want to work with.
-  goTo(value:string){
-    // if (value == 'gClass'){
-    //   // open new tab and navigate to current cohort's view.
-    // }
-    if (this.contentSelectors.includes(value)){
-      this.currentContent = value;
-    }
+  async goTo(value:string){
+    await this.homeViewService.navigate(value);
   }
 
   getClass(location:string){
-    console.log(location)
     const content: any = {    };
-    content[`${(location === this.currentContent) ? 'link-primary' : 'link-light'}`] = true;
+    content[`${(location === this.homeViewService.getCurrentComponentTitle()) ? 'link-primary' : 'link-light'}`] = true;
     return content;
   }
 
