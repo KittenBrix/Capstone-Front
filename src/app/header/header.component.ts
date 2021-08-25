@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   }
 
   roleId(){
-    return this.authService.getRole();
+    return this.authService.siteRole;
   }
 
   loggedIn(){

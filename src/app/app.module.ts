@@ -34,6 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { CohortNavigatorComponent } from './cohort-navigator/cohort-navigator.component';
+import { RestService } from './services/rest.service';
 
 
 
@@ -78,6 +79,7 @@ import { CohortNavigatorComponent } from './cohort-navigator/cohort-navigator.co
   ],
   providers: [
     Auth,
+    RestService
   ],
   bootstrap: [AppComponent]
 })

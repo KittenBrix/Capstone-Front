@@ -6,45 +6,46 @@ import { User, UserPayload } from 'app/interfaces/API';
 @Injectable()
 export class Auth {
   protected readonly tokenKey: string = '_keys_t20';
+  protected readonly siteRoleKey: string = '_keys_sr20';
   protected readonly roleKey: string = '_keys_r20';
   protected readonly refreshKey: string = '_keys_rt20';
   protected readonly expiresKey: string = '_keys_e20';
   protected readonly userKey: string = '_keys_u20';
 
-  public token: string = '';
-  public role: number = -1;
-  public refresh: string= '';
-  public expires: number = -1;
-  public user: User|null = null;
+  private _token: string = '';
+  private _siteRole: number = -1;
+  private _refresh: string= '';
+  private _expires: number = -1;
+  private _user: User|null = null;
 
   constructor() {}
 
   loggedIn(): boolean {
-    if (this.getToken() !== '') {
+    if (this.token !== '') {
       return true;
     } else {
       return false;
     }
   }
 
-  setRole(role: number): void {
+  // setter is private.
+  private setRole(role: number): void {
     localStorage.setItem(this.roleKey, String(role));
-    this.role = role;
+    this._siteRole = role;
   }
 
-  getRole(): number {
+  get siteRole(): number {
     if (localStorage.getItem(this.roleKey) && localStorage.getItem(this.roleKey) !== '') {
       this.setRole(Number(localStorage.getItem(this.roleKey)));
     }
-    return this.role;
+    return this._siteRole;
   }
 
-  setToken(token: string): void {
-    localStorage.setItem(this.tokenKey, token);
-    this.token = token;
+  set token(value:string) {
+    localStorage.setItem(this.tokenKey, value);
+    this._token = value;
   }
-
-  getToken(): string {
+  get token(): string{
     if (localStorage.getItem(this.tokenKey) && localStorage.getItem(this.tokenKey) !== '') {
       const expires: number = Number(localStorage.getItem(this.expiresKey));
       const seconds: number = Math.floor(new Date().getTime() / 1000);
@@ -52,81 +53,77 @@ export class Auth {
       if (seconds >= expires) {
         this.logout();
       } else {
-        this.setToken(localStorage.getItem(this.tokenKey)??'');
+        this.token = localStorage.getItem(this.tokenKey)??'';
       }
     } else {
       return '';
     }
-
-    return this.token;
+    return this._token;
   }
 
-  setRefreshToken(refresh: string): void {
+  set refreshToken(refresh:string){
     localStorage.setItem(this.refreshKey, refresh);
-    this.refresh = refresh;
+    this._refresh = refresh;
   }
-
-  getRefreshToken(): string {
+  get refreshToken():string{
     if (localStorage.getItem(this.refreshKey) && localStorage.getItem(this.refreshKey) !== '') {
-      this.setRefreshToken(localStorage.getItem(this.refreshKey)??'');
+      this.refreshToken = localStorage.getItem(this.refreshKey)??'';
     }
-
-    return this.refresh;
+    return this._refresh;
   }
 
   hasRefreshToken(): boolean {
-    if (localStorage.getItem(this.refreshKey) && localStorage.getItem(this.refreshKey) !== '') {
+    const data = localStorage.getItem(this.refreshKey);
+    if (data && data !== '') {
       return true;
     }
     return false;
   }
 
-  setExpires(expires: number): void {
-    localStorage.setItem(this.expiresKey, String(expires));
-    this.expires = expires;
+  set expires (exp: number){
+    localStorage.setItem(this.expiresKey, String(exp));
+    this._expires = exp;
   }
 
-  getExpires(): number {
+  get expires(): number {
     if (localStorage.getItem(this.expiresKey) && localStorage.getItem(this.expiresKey) !== '') {
-      this.setExpires(Number(localStorage.getItem(this.expiresKey)));
+      this.expires = Number(localStorage.getItem(this.expiresKey));
     }
-
     return this.expires;
   }
 
-  setUser(user: User | null): void {
+  
+  private setUser(user: User | null): void {
     localStorage.setItem(this.userKey, JSON.stringify(user));
-    this.user = user;
+    this._user = user;
   }
 
-  getUser(): any {
-    if (localStorage.getItem(this.userKey)) {
-      this.user = JSON.parse(localStorage.getItem(this.userKey)??'');
-    }
 
-    return this.user;
+  get user(): any {
+    if (localStorage.getItem(this.userKey)) {
+      this._user = JSON.parse(localStorage.getItem(this.userKey)??'');
+    }
+    return this._user;
   }
 
 
   setAuth(user: User): void {
-    //{ partnerID: number; expires: any; jwt: any; refreshToken: any; role: any; partnerData: any }
     this.login(user as UserPayload);
   }
 
   login(payload: UserPayload): void {
-    this.setExpires(payload.expires);
-    this.setToken(payload.jwt);
-    this.setRefreshToken(payload.refreshToken);
+    this.expires = payload.expires;
+    this.token = payload.jwt;
+    this.refreshToken = payload.refreshToken;
     this.setRole(payload.role);
   }
 
   logout() {
-    this.setToken('');
-    this.setRefreshToken('');
-    this.setExpires(0);
+    this.token = '';
+    this.refreshToken = '';
+    this.expires = 0;
     this.setUser(null);
     this.setRole(0);
-
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.refreshKey);
     localStorage.removeItem(this.expiresKey);

@@ -1,13 +1,5 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { AttendanceComponent } from 'app/cohort/attendance/attendance.component';
-import { GoogleclassroomComponent } from 'app/cohort/googleclassroom/googleclassroom.component';
-import { PeopleComponent } from 'app/cohort/people/people.component';
-import { RecordingsComponent } from 'app/cohort/recordings/recordings.component';
-import { SchedulerComponent } from 'app/cohort/scheduler/scheduler.component';
-import { ViewComponent } from 'app/cohort/view/view.component';
-import { HomeViewService } from 'app/util/home-view.service';
-import { Subscription } from 'rxjs';
-
+import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { HomeViewService } from 'app/services/home-view.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

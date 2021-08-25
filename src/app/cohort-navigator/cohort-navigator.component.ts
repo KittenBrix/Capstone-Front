@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { userRole } from 'app/common/types';
-import { HomeViewService } from 'app/util/home-view.service';
+import { HomeViewService } from 'app/services/home-view.service';
 
 @Component({
   selector: 'app-cohort-navigator',

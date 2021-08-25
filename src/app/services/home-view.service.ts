@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { ComponentFactoryResolver } from '@angular/core';
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { AttendanceComponent } from 'app/cohort/attendance/attendance.component';
 import { GoogleclassroomComponent } from 'app/cohort/googleclassroom/googleclassroom.component';
@@ -6,7 +6,6 @@ import { PeopleComponent } from 'app/cohort/people/people.component';
 import { RecordingsComponent } from 'app/cohort/recordings/recordings.component';
 import { SchedulerComponent } from 'app/cohort/scheduler/scheduler.component';
 import { ViewComponent } from 'app/cohort/view/view.component';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
