@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
@@ -35,8 +35,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatMenuModule } from '@angular/material/menu';
 import { CohortNavigatorComponent } from './cohort-navigator/cohort-navigator.component';
 import { RestService } from './services/rest.service';
-
-
+import { WeeklytimeviewComponent } from './weeklytimeview/weeklytimeview.component';
+import { MatButtonModule } from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { JWTService } from './services/jwt.service';
+import { LoggedInGuard } from './auth.guard';
 
 
 @NgModule({
@@ -63,6 +67,7 @@ import { RestService } from './services/rest.service';
     DataEntryComponent,
     RolesComponent,
     CohortNavigatorComponent,
+    WeeklytimeviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,11 +80,17 @@ import { RestService } from './services/rest.service';
     MatInputModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatMenuModule
+    MatMenuModule,
+    MatButtonModule,
+    HttpClientModule,
+    MatDatepickerModule,
+    MatMomentDateModule
   ],
   providers: [
     Auth,
-    RestService
+    RestService,
+    JWTService,
+    LoggedInGuard
   ],
   bootstrap: [AppComponent]
 })

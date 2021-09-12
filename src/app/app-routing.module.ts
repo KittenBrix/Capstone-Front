@@ -5,12 +5,15 @@ import { SettingsComponent } from './home/settings/settings.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
 import { P404Component } from './p404/p404.component';
 import { PracticeComponent } from './practice/practice.component';
+import { WeeklytimeviewComponent } from './weeklytimeview/weeklytimeview.component';
+import { LoggedInGuard } from './auth.guard';
 
 const routes: Routes = [
-  {path: 'access', component: LoginRegisterComponent},
+  {path: 'access', component: LoginRegisterComponent, canActivate: [LoggedInGuard]},
   {path: 'practice', component: PracticeComponent},
   {path: 'settings', component: SettingsComponent},
-  {path: '', component: HomeComponent},
+  {path: 'week', component: WeeklytimeviewComponent},
+  {path: '', component: HomeComponent, canActivate: [LoggedInGuard]},
   {path: '**', component: P404Component}
 ];
 

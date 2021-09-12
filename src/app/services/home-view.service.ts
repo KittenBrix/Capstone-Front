@@ -6,6 +6,9 @@ import { PeopleComponent } from 'app/cohort/people/people.component';
 import { RecordingsComponent } from 'app/cohort/recordings/recordings.component';
 import { SchedulerComponent } from 'app/cohort/scheduler/scheduler.component';
 import { ViewComponent } from 'app/cohort/view/view.component';
+import { environment } from 'environments/environment';
+import { Auth } from './auth.service';
+import { RestService } from './rest.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +34,11 @@ export class HomeViewService {
   private currentComponentRef: any;
   private containerRef: ViewContainerRef | null = null;
 
-  constructor( private componentFactoryResolver: ComponentFactoryResolver) { 
+  constructor( 
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private authService: Auth,
+    private restService: RestService) {
+
   }
 
 

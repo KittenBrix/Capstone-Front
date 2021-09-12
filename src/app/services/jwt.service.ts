@@ -11,8 +11,8 @@ export class JWTService {
    * @returns {boolean}
    */
   checkToken(): string {
-    if (this.auth.getToken()) {
-      return this.auth.getToken();
+    if (this.auth.token) {
+      return this.auth.token;
     } else {
       return '';
     }
@@ -23,7 +23,7 @@ export class JWTService {
    * @return {boolean}
    */
   checkRole(minRole:number): boolean {
-    if (this.auth.getRole() >= minRole) {
+    if (this.auth.siteRole >= minRole) {
       return true;
     } else {
       return false;
@@ -31,7 +31,7 @@ export class JWTService {
   }
 
   getRole(role: number): boolean {
-    if (this.auth.getRole() === role) {
+    if (this.auth.siteRole === role) {
       return true;
     } else {
       return false;

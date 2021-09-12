@@ -1,5 +1,6 @@
 // TODO: change this to fit my needs instead of portal
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { User, UserPayload } from 'app/interfaces/API';
 
 
@@ -18,10 +19,10 @@ export class Auth {
   private _expires: number = -1;
   private _user: User|null = null;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   loggedIn(): boolean {
-    if (this.token !== '') {
+    if (this.token != '') {
       return true;
     } else {
       return false;
@@ -109,10 +110,11 @@ export class Auth {
 
   setAuth(user: User): void {
     this.login(user as UserPayload);
+    this.router.navigate(['/']);
   }
 
   login(payload: UserPayload): void {
-    this.expires = payload.expires;
+    this.expires = Number(payload.expires);
     this.token = payload.jwt;
     this.refreshToken = payload.refreshToken;
     this.setRole(payload.role);
@@ -129,5 +131,25 @@ export class Auth {
     localStorage.removeItem(this.expiresKey);
     localStorage.removeItem(this.userKey);
     localStorage.removeItem(this.roleKey);
+    this.canAccess();
+  }
+
+  canAccess(url?:any){
+    if (url && url.includes('access')){
+      if (!this.loggedIn()){
+        return true;
+      } else {
+        this.router.navigate(['/']);
+        return false;
+      }
+    } else {
+      if (this.loggedIn()){
+        return true;
+      } else {
+        this.router.navigate(['/access']);
+        return false;
+      }
+    }
   }
 }
+

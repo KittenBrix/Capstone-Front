@@ -33,4 +33,9 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     console.log("logged out");
   }
+
+  isUser(){
+    console.log('token', this.authService.token,this.authService.loggedIn());
+    return this.authService.loggedIn();
+  }
 }

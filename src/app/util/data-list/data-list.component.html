@@ -3,7 +3,7 @@
     <ng-content ></ng-content>
     <!-- <app-data-entry (submit)="add($event)" [fields]="describeData()" class="expandW"></app-data-entry> -->
     <!-- <hr> -->
-    <div id="table-container" class="expandW" *ngIf="getDataList().length > 0">
+    <div id="table-container" class="expandW text-white" *ngIf="getDataList().length > 0">
         <table mat-table id="data-table" [dataSource]="getDataList()" class="">
             <ng-container *ngFor="let key of describeData()" [matColumnDef]="key">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header >{{key}}</th>
