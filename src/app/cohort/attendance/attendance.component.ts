@@ -36,29 +36,23 @@ export class AttendanceComponent implements OnInit {
     // load all your cohorts.
     // get all the individual data for your cohorts.
     this.loading.push(true);
-    await this.getAvailableCohorts();
-    this.selectedCohort = this.cohorts[0].name;
     await this.getCohortData();
     this.loading.pop();
   }
 
   async getCohortData(){
     this.loading.push(true);
-    let id = this.selectedCohort;
+    let id = this.homeService.activeCohort;
     if (id){
       const proms = await Promise.all([
-        await this.restService.req('get',`${environment.apiUrl}/cohorts/${id}/people`),
-        await this.restService.req('get',`${environment.apiUrl}/cohorts/${id}/timeEntries`)]);
+        this.restService.req('get',`cohorts/${id}/people`),
+        this.restService.req('get',`cohorts/${id}/timeEntries`)
+      ]);
+      console.log('proms',proms);
       this.persons = proms[0];
       this.timeEntries = proms[1];
       this.selectedPerson = this.persons[0].id;
     }
-    this.loading.pop();
-  }
-
-  async getAvailableCohorts(){
-    this.loading.push(true);
-    this.cohorts = await this.restService.req('get',`${environment.apiUrl}/user/${this.authService.user.id}/roles`);
     this.loading.pop();
   }
 

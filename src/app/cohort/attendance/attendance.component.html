@@ -1,32 +1,31 @@
-<div class="container-fluid expandH d-flex flex-column">
-    <div class="row">
-        <select class="col" [(ngModel)]="selectedCohort" name="cohorts" id="cohorts" (change)="getCohortData">
-            <option *ngFor="let cohort of cohorts" value="cohort.id">{{cohort.name}}</option>
-        </select>
-        <select class="col" [(ngModel)]="selectedPerson" name="persons" id="persons">
-            <option *ngFor="let person of persons" value="person.id">{{person.firstname}} {{person.lastname}}</option>
-        </select>
+<div class="container-fluid d-flex flex-column">
+    <div class="row card">
+        <div class="col d-flex flex-row align-items-center justify-space-start">
+            <p class="text-light m-1">person:&nbsp;</p>
+            <select class="bg-dark text-light m-1" [(ngModel)]="selectedPerson" name="persons" id="persons">
+                <option *ngFor="let person of persons" value="person.id" class="text-light bg-dark">{{person.firstname}} {{person.lastname}}</option>
+                <option value="0" class="text-light bg-dark">No one</option>
+            </select>
+        </div>
     </div>
-    <div class="row flex-grow-1">
+    <div class="row" id="viewer">
         <p *ngIf="loading.length">Waiting for data...</p>
-        <app-weeklytimeview *ngIf="!loading.length" [scheduleData]="getUserTimes(selectedPerson)"></app-weeklytimeview>
+        <app-weeklytimeview *ngIf="!loading.length" [scheduleData]="getUserTimes(selectedPerson)" class="card"></app-weeklytimeview>
 
     </div>
-    <div class="row d-flex flex-row justify-space-between">
-        <p>Download Reports:</p>
-        <mat-form-field>
-            <input matInput [matDatepicker]="picker1" placeholder="start date" (dateChange)="setDate(0,$event)">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
+    <div class="row d-flex flex-row justify-space-between card" *ngIf="!loading.length" id="DownloadCard">
+        <H1>Download Reports:</H1>
+        <mat-form-field class="col-12 col-md text-light m-1">
+            <input class="text-light" matInput [matDatepicker]="picker1" placeholder="start date" (dateChange)="setDate(0,$event)">
+            <mat-datepicker-toggle class="text-light" matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker class="text-light" #picker1></mat-datepicker>
         </mat-form-field>
-        <mat-form-field>
-            <input matInput [matDatepicker]="picker2" placeholder="end date" (dateChange)="setDate(1, $event)">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
+        <mat-form-field class="col-12 col-md text-light m-1">
+            <input class="text-light" matInput [matDatepicker]="picker2" placeholder="end date" (dateChange)="setDate(1, $event)">
+            <mat-datepicker-toggle class="text-light" matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker class="text-light" #picker2></mat-datepicker>
         </mat-form-field>
-        <button class="btn btn-dark text-light" (click)="downloadTimes()" [disabled]="loading">Cohort Times</button>
-        <button class="btn btn-dark text-light" (click)="downloadUser()" [disabled]="loading">User Times</button>
-
-
+        <button class="btn btn-dark text-light m-1" (click)="downloadTimes()" [disabled]="loading">Cohort Times</button>
+        <button class="btn btn-dark text-light m-1" (click)="downloadUser()" [disabled]="loading">User Times</button>
     </div>
 </div>

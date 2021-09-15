@@ -1,35 +1,37 @@
-<form class="expandW text-white">
+<form class="expandW text-light">
     <div class="container-fluid">
         <div class="row d-flex flex-row">
             <ng-container *ngFor="let field of fields; index as i">
                 <mat-form-field appearance="outline" class="col flex-grow-1">
-                    <mat-label>{{field}}</mat-label>
+                    <mat-label class="text-light">{{field}}</mat-label>
                     <input matInput 
                         [placeholder]="field" 
                         [type]="typeOf(field)" 
                         [(ngModel)]="model[field]" 
                         [formControl]="get(field)"
-                        [name]="field">
+                        [name]="field" class="text-light">
                     <mat-error *ngIf="getErrorMessage(field)">{{getErrorMessage(field)}}</mat-error>
                 </mat-form-field>  
             </ng-container>
             <ng-container *ngFor="let field of dropdownfields; index as i">
-                <mat-form-field appearance="outline" class="col flex-grow-1">
-                    <mat-label>{{field.name}}</mat-label>
+                <mat-form-field appearance="outline" class="col flex-grow-1 text-light">
+                    <mat-label class="text-light">{{field.name}}</mat-label>
                     <mat-select
                         [name]="field.name"
                         [(ngModel)]="model[field.name]"
+                        class="text-light"
                         required>
                         <mat-option 
                             *ngFor="let val of field.options"
                             [value]="val"
+                            class="text-light bg-dark"
                             >{{val}}</mat-option>
                     </mat-select>
                 </mat-form-field>  
             </ng-container>
-            <div class="col form-field-adjust flex-shrink-1" >
-                <button class="btn btn-white" (click)="create()" [disabled]="!valid()">Add</button>
-            </div>
+        </div>
+        <div class="expandW" >
+            <button class="btn btn-dark expandW" (click)="create()" [disabled]="!valid()">Add</button>
         </div>
     </div>
 </form>

@@ -1,8 +1,6 @@
-// TODO: change this to fit my needs instead of portal
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { User, UserPayload } from 'app/interfaces/API';
-
+import jwt_decode from 'jwt-decode';
 
 @Injectable()
 export class Auth {
@@ -17,16 +15,18 @@ export class Auth {
   private _siteRole: number = -1;
   private _refresh: string= '';
   private _expires: number = -1;
-  private _user: User|null = null;
+  private _user: any = null;
 
   constructor(private router: Router) {}
 
   loggedIn(): boolean {
+    // check if we're logged in, forcing redirection in case we are/aren't.
     if (this.token != '') {
       return true;
     } else {
       return false;
     }
+    
   }
 
   // setter is private.
@@ -43,18 +43,23 @@ export class Auth {
   }
 
   set token(value:string) {
-    localStorage.setItem(this.tokenKey, value);
+    const item = value ?? '';
+    if (value == ''){
+      throw new Error("set to bad item");
+    }
+    localStorage.setItem(this.tokenKey, value ?? '');
     this._token = value;
   }
   get token(): string{
-    if (localStorage.getItem(this.tokenKey) && localStorage.getItem(this.tokenKey) !== '') {
+    const tokenvalue = localStorage.getItem(this.tokenKey);
+    if (tokenvalue && tokenvalue != '') {
       const expires: number = Number(localStorage.getItem(this.expiresKey));
       const seconds: number = Math.floor(new Date().getTime() / 1000);
 
       if (seconds >= expires) {
         this.logout();
       } else {
-        this.token = localStorage.getItem(this.tokenKey)??'';
+        this._token = tokenvalue ?? '';
       }
     } else {
       return '';
@@ -88,17 +93,16 @@ export class Auth {
 
   get expires(): number {
     if (localStorage.getItem(this.expiresKey) && localStorage.getItem(this.expiresKey) !== '') {
-      this.expires = Number(localStorage.getItem(this.expiresKey));
+      this._expires = Number(localStorage.getItem(this.expiresKey));
     }
-    return this.expires;
+    return this._expires;
   }
 
   
-  private setUser(user: User | null): void {
+  private setUser(user: any): void {
     localStorage.setItem(this.userKey, JSON.stringify(user));
     this._user = user;
   }
-
 
   get user(): any {
     if (localStorage.getItem(this.userKey)) {
@@ -108,20 +112,16 @@ export class Auth {
   }
 
 
-  setAuth(user: User): void {
-    this.login(user as UserPayload);
-    this.router.navigate(['/']);
-  }
-
-  login(payload: UserPayload): void {
-    this.expires = Number(payload.expires);
-    this.token = payload.jwt;
-    this.refreshToken = payload.refreshToken;
+  login(token: any): void {
+    const payload: any = jwt_decode(token);
+    this.expires = Number(payload.exp);
+    this.token = payload.token ?? token;
     this.setRole(payload.role);
+    this.setUser(payload);
   }
 
   logout() {
-    this.token = '';
+    this._token = '';
     this.refreshToken = '';
     this.expires = 0;
     this.setUser(null);
@@ -131,7 +131,7 @@ export class Auth {
     localStorage.removeItem(this.expiresKey);
     localStorage.removeItem(this.userKey);
     localStorage.removeItem(this.roleKey);
-    this.canAccess();
+    this.router.navigate(['/access']);
   }
 
   canAccess(url?:any){
@@ -139,14 +139,12 @@ export class Auth {
       if (!this.loggedIn()){
         return true;
       } else {
-        this.router.navigate(['/']);
         return false;
       }
     } else {
       if (this.loggedIn()){
         return true;
       } else {
-        this.router.navigate(['/access']);
         return false;
       }
     }

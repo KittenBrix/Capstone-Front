@@ -18,7 +18,7 @@ export interface userRole {
     id?: number,
     userId?: number,
     roleId?: number,
-    cohort?: string,
+    cohortId?: string,
 }
 
 export enum userRoleEnum {

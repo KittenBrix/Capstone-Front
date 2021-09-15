@@ -1,3 +1,24 @@
 .as-menu {
     position:absolute;
 }
+
+#subcontent{
+    background-color:  rgb(120,120,120);
+    overflow-y: auto;
+    padding: 1em;
+    height: 100%;
+}
+
+#spacer{
+    // background-color: red;
+    height: 3em;
+}
+
+#menubutton {
+    margin-top: 0.25em;
+    opacity: 50%;
+}
+#menubutton:hover{
+    opacity: 100%;
+    filter: brightness(80%);
+}

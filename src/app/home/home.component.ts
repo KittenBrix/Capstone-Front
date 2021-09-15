@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
   getClasses(){
     const content: any = {};
-    content['col-md-2'] = this.expanded();
+    content['col-md-2 expandH bg-dark'] = this.expanded();
     content['as-menu expandW d-flex flex-row-reverse'] = !this.expanded();
     return content;
   }

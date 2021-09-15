@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Auth } from 'app/services/auth.service';
 import { RestService } from 'app/services/rest.service';
 import { environment } from 'environments/environment';
@@ -18,7 +19,8 @@ export class LoginRegisterComponent implements OnInit {
   _confirm:string;
   _error:string = "";
   constructor(public authService: Auth,
-    public restService: RestService) {
+    public restService: RestService,
+    public router: Router) {
     this._firstname = '';
     this._lastname = '';
     this._username = '';
@@ -39,18 +41,19 @@ export class LoginRegisterComponent implements OnInit {
       let data: any = null;
       if (this.login){
         // this means we want to login.
-        const _login = await this.restService.req('post',`${environment.apiUrl}/auth`,{username: this._username, password: this._password});
+        const _login = await this.restService.req('post',`auth`,{username: this._username, password: this._password});
         data = _login;
       } else {
         // registration instead
         // {username, firstname, lastname, password}
-        const reg = await this.restService.req('post',`${environment.apiUrl}/auth/register`,{
+        const reg = await this.restService.req('post',`auth/register`,{
           username: this._username, password: this._password, firstname: this._firstname, lastname: this._lastname});
         data = reg;
       }
-      console.log(data);
-      if (data && data.token){
-        this.authService.setAuth(data);
+      const tok = data.token ?? '';
+      if (tok != ''){
+        this.authService.login(tok);
+        this.router.navigate(['/home']);
       } else {
         this._error = data.msg ?? JSON.stringify(data);
       }

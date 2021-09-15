@@ -12,3 +12,14 @@ button{
 .container-fluid{
  padding: 1em;
 }
+
+$red: 255;
+$green: 190;
+$blue: 240;
+
+.card {
+    background-color: rgba($red/4,$green/4,$blue/4,0.8) !important;
+    padding: 1em;
+    border-style: solid;
+    border-width: 3px;
+}

@@ -1,76 +1,80 @@
 <div id="content" class="container-fluid">
     <div id="account-actions" class="row">
-        <div id="contact-bank" class="col-md-4">
+        <div id="contact-bank" class="col-md-4 d-flex flex-column align-items-center table-container">
+            <h1>Contact Information</h1>
             <!-- change account contact items (email/phone) -->
-            <app-data-list [canEditCallback]="defaultEdit" [canDeleteCallback]="defaultDelete" [datalist]="phones" [contentType]="'Phones'" [fields]="describePhones()" (dataChanged)="change(phones,$event)">
+            <app-data-list [canEditCallback]="defaultEdit" [canDeleteCallback]="defaultDelete" [datalist]="phones" [contentType]="'Phones'" [fields]="describePhones()" (dataChanged)="change(phones,$event)" class="expandW">
                 <app-data-entry (creation)="add($event, phones)" [fields]="phoneFields" [dropdownfields]="phoneDropDowns" class="expandW"></app-data-entry>
             </app-data-list>
-            <app-data-list [datalist]="emails" [contentType]="'Emails'" [fields]="describeEmails()" (dataChanged)="change(emails,$event)">
+            <app-data-list [datalist]="emails" [contentType]="'Emails'" [fields]="describeEmails()" (dataChanged)="change(emails,$event)" class="expandW">
                 <app-data-entry (creation)="add($event, emails)" [fields]="emailFields" [dropdownfields]="emailDropDowns" class="expandW"></app-data-entry>
             </app-data-list>
         </div>
         <div id="account-settings" class="col-md-8 d-flex flex-column align-items-center table-container">
             <!-- change base account stuff -->
             <h1>Account Settings</h1>
-            <div class="expandW">
+            <div class="expandW card">
                 <form [formGroup]="nameForm" (ngSubmit)="submitNameForm()" class="expandW">
-                    <div class="form-group expandW">
-                        <mat-form-field appearance="outline">
-                            <mat-label>First Name</mat-label>
-                            <input formControlName="firstName" 
+                    <div class="form-group expandW d-flex justify-content-between">
+                        <mat-form-field appearance="outline" class="flex-grow-1">
+                            <mat-label class="text-light">First Name</mat-label>
+                            <input formControlName="firstName" class="text-light" 
                             matInput placeholder="First Name">
                         </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Last Name</mat-label>
-                            <input formControlName="lastName" 
+                        <mat-form-field appearance="outline" class="flex-grow-1">
+                            <mat-label class="text-light">Last Name</mat-label>
+                            <input formControlName="lastName" class="text-light"
                             matInput placeholder="Last Name">
                         </mat-form-field>
-                        <button class="btn text-white" type="submit">
+                        <button class="btn btn-dark" type="submit">
                             <mat-icon aria-hidden="false" aria-label="Example home icon">save</mat-icon>
                         </button>
                     </div>
                 </form>
                 <hr>
-                <form [formGroup]="defaultsForm" (ngSubmit)="submitDefaultsForm()" class="expandW">
-                    <div class="form-group expandW ">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Primary/Recovery Email</mat-label>
-                            <mat-select formControlName="email" matInput>
-                                <mat-option *ngFor="let email of emails" value="email">{{email.email}}</mat-option>
+                <form [formGroup]="defaultsForm" (ngSubmit)="submitDefaultsForm()" class="expandW container-fluid">
+                    <div class="form-group expandW row">
+                        <mat-form-field appearance="outline" class="col">
+                            <mat-label class="text-light">Primary/Recovery Email</mat-label>
+                            <mat-select formControlName="email" matInput class="text-light">
+                                <mat-option *ngFor="let email of emails" value="email" class="text-light">{{email.email}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Primary/Recovery Phone</mat-label>
-                            <mat-select formControlName="phone" matInput>
-                                <mat-option *ngFor="let phone of phones" value="email">{{phone.phone}}</mat-option>
+                        <mat-form-field appearance="outline" class="col">
+                            <mat-label class="text-light" >Primary/Recovery Phone</mat-label>
+                            <mat-select formControlName="phone" matInput class="text-light">
+                                <mat-option *ngFor="let phone of phones" value="email" class="text-light">{{phone.phone}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Clockify Email</mat-label>
-                            <mat-select formControlName="clockify" matInput>
-                                <mat-option *ngFor="let email of emails" value="email">{{email.email}}</mat-option>
+                        <mat-form-field appearance="outline" class="col">
+                            <mat-label class="text-light">Clockify Email</mat-label>
+                            <mat-select formControlName="clockify" matInput class="text-light">
+                                <mat-option *ngFor="let email of emails" value="email" class="text-light">{{email.email}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Google Email</mat-label>
-                            <mat-select formControlName="google" matInput>
-                                <mat-option *ngFor="let email of emails" value="email">{{email.email}}</mat-option>
+                        <mat-form-field appearance="outline" class="col">
+                            <mat-label class="text-light">Google Email</mat-label>
+                            <mat-select formControlName="google" matInput class="text-light">
+                                <mat-option *ngFor="let email of emails" value="email" class="text-light">{{email.email}}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                        <mat-form-field appearance="outline">
-                            <mat-label>Discord Name and Pin (YourTag#0000)</mat-label>
-                            <input formControlName="discord" 
+                        <mat-form-field appearance="outline" class="col">
+                            <mat-label class="text-light">Discord Name and Pin (YourTag#0000)</mat-label>
+                            <input formControlName="discord" class="text-light"
                             matInput placeholder="YourTag#0000">
                         </mat-form-field>
-                        <button class="btn text-white" type="submit">
+                        <button class="btn btn-dark" type="submit" >
                             <mat-icon aria-hidden="false" aria-label="Save Defaults icon">save</mat-icon>
                         </button>
                     </div>
                 </form>
             </div>
+            <div id="roles" class="expandW">
+                <app-roles></app-roles>
+            </div>
         </div>
     </div>
-    <div id="roles" class="row">
+    <!-- <div id="roles" class="row">
         <app-roles></app-roles>
-    </div>
+    </div> -->
 </div>

@@ -8,6 +8,8 @@ import { HomeViewService } from 'app/services/home-view.service';
   styleUrls: ['./cohort-navigator.component.scss']
 })
 export class CohortNavigatorComponent implements OnInit {
+  private _cohort: any = null;
+
 
   constructor(
     public homeViewService: HomeViewService
@@ -15,17 +17,11 @@ export class CohortNavigatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.homeViewService.refreshRoles();
   }
 
   getCohorts(){
-    // get user's roles. extract cohorts from it.
-    const roles: userRole[] = [
-      {id:1,userId:1,roleId:1,cohort:'216'},
-      {id:2,userId:1,roleId:1,cohort:'214'},
-      {id:3,userId:1,roleId:5,cohort:'209'},
-    ];
-    // maps and filter out empty cohorts.
-    return Array.from(new Set(roles.map(role => {return role.cohort;}).filter(el=>{return el?.length ?? false;})));
+    return this.homeViewService.getCohorts();
   }
 
   // tell service which dashboard we want to work with.
@@ -38,5 +34,16 @@ export class CohortNavigatorComponent implements OnInit {
     content[`${(location === this.homeViewService.getCurrentComponentTitle()) ? 'link-primary' : 'link-light'}`] = true;
     return content;
   }
+
+  public set activeCohort(item : any) {
+    this._cohort = item;
+    this.homeViewService.activeCohort = item;
+  }
+
+  public get activeCohort() : any {
+    return this.homeViewService.activeCohort;
+  }
+  
+  
 
 }

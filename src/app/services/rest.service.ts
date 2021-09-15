@@ -9,7 +9,7 @@ export class RestService {
   constructor(private http: HttpClient, private jwt: JWTService) { }
 
   public async req(method: string, url: string, body = null): Promise<any>{
-    return await this.generateHttpPromise(method, url, body);
+    return await this.generateHttpPromise(method, `${environment.apiUrl}/${url}`, body);
   }
   
   private generateHttpPromise(httpMethod: string, url: string, body = null): Promise<any> {

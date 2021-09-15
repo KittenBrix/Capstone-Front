@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Auth } from 'app/services/auth.service';
 
 @Component({
@@ -8,13 +9,13 @@ import { Auth } from 'app/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   // TODO restructure html to use mat-menu instead of bootstrap dropdown.
-  constructor(private authService: Auth) {
-
+  constructor(private authService: Auth,
+    public router: Router) {
   }
 
-  ngOnInit(): void {
-
+  ngOnInit(){
   }
+
 
   roleId(){
     return this.authService.siteRole;
@@ -31,11 +32,11 @@ export class HeaderComponent implements OnInit {
 
   logout(){
     this.authService.logout();
+    // this.router.navigate['/access'];
     console.log("logged out");
   }
 
-  isUser(){
-    console.log('token', this.authService.token,this.authService.loggedIn());
-    return this.authService.loggedIn();
+  getName(){
+    return (this.authService.user) ? this.authService.user.username : '';
   }
 }

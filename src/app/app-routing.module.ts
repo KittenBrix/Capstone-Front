@@ -9,11 +9,11 @@ import { WeeklytimeviewComponent } from './weeklytimeview/weeklytimeview.compone
 import { LoggedInGuard } from './auth.guard';
 
 const routes: Routes = [
-  {path: 'access', component: LoginRegisterComponent, canActivate: [LoggedInGuard]},
+  {path: 'access', component: LoginRegisterComponent},
   {path: 'practice', component: PracticeComponent},
   {path: 'settings', component: SettingsComponent},
   {path: 'week', component: WeeklytimeviewComponent},
-  {path: '', component: HomeComponent, canActivate: [LoggedInGuard]},
+  {path: 'home', component: HomeComponent, canActivate: [LoggedInGuard]},
   {path: '**', component: P404Component}
 ];
 

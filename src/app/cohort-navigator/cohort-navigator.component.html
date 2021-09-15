@@ -1,9 +1,10 @@
 <mat-form-field appearance="outline" class="text-light bg-dark expandW">
     <mat-label class="text-light bg-dark">Cohort Selection</mat-label>
-    <mat-select *ngIf="getCohorts().length" class="text-light bg-dark expandW">
+    <mat-select class="text-light bg-dark expandW" [(ngModel)]="activeCohort">
       <mat-option *ngFor="let value of getCohorts()" [value]="value" class="text-light bg-dark">
         {{value}}
       </mat-option>
+      <mat-option [value]="0" class="text-light bg-dark">No Cohort</mat-option>
     </mat-select>
 </mat-form-field>
 <div class="expandW link-hover" *ngFor="let location of homeViewService.getNavigationOptions()" (click)="goTo(location)">

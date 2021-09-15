@@ -1,11 +1,12 @@
 <nav id="header" class="navbar navbar-expand navbar-dark bg-dark expandW">
     <div class="container-fluid expandH expandW">
-        <a id="logolink" class="navbar-brand" href="#">
+        <a id="logolink" class="navbar-brand" href="#" routerLink="/home" routerLinkActive="active">
             <img class="logo d-none d-sm-block" src="../../assets/images/logo-generic.png" alt="">
             <img class="logo d-block d-sm-none" src="../../assets/images/logo-generic-sqr.png" alt="">
         </a>
         <div class="d-none d-sm-block"style="flex-grow: 1;"></div>
         <input *ngIf="(roleId() >= 5)" class="searchBar form-control rounded bg-dark text-light d-sm-block d-none" type="search" placeholder="Search" (keydown.enter)="search($event)">
+        <p class="text-light">{{getName()}}</p>
         <ul class="navbar-nav" *ngIf="loggedIn()">
         <li id="userMenu" class="nav-item dropdown" >
             <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -13,7 +14,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end bg-dark text-light" aria-labelledby="navbarDropdown">
                 <li class="d-sm-none d-flex expandW text-light"><input *ngIf="!(roleId() >= 5)" class="searchBar expandW form-control rounded bg-dark text-light" type="search" placeholder="Search" (keydown.enter)="search($event)"></li>
-                <li><a class="dropdown-item text-light" href="#" routerLink="/" routerLinkActive="active">Dashboard</a></li>
+                <li><a class="dropdown-item text-light" href="#" routerLink="/home" routerLinkActive="active">Dashboard</a></li>
                 <li><a class="dropdown-item text-light" href="#" routerLink="/settings" routerLinkActive="active">Change Account Settings</a></li>
                 <li><hr class="dropdown-divider text-light"></li>
                 <li><a class="dropdown-item" style="color: red;" href="#" (click)="logout()">Log Out</a></li>

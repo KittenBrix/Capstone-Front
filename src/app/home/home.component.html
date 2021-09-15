@@ -1,9 +1,9 @@
 <!-- <p>home works!</p> -->
 <div id="content" class="container-fluid bg-dark text-light">
     <div class="row expandH" style="position: relative;">
-        <div [ngClass]="getClasses()" class="text-light bg-transparent">
+        <div [ngClass]="getClasses()" class="text-light">
             <ng-container *ngIf="!expanded()" >
-                <button mat-icon-button [matMenuTriggerFor]="menu" class="btn btn-dark">
+                <button id="menubutton"[matMenuTriggerFor]="menu" class="btn btn-dark text-light expandW">
                     Cohort: 216 - {{currentContent}}
                 </button>
                 <mat-menu id="navigation-menu" #menu="matMenu" class="text-light bg-dark">
@@ -14,7 +14,8 @@
                 <app-cohort-navigator></app-cohort-navigator>
             </ng-container>
         </div>
-        <div class="col bg-success text-light flex-grow-1">
+        <div id="subcontent" class="col text-light flex-grow-1">
+            <div id="spacer" *ngIf="!expanded()"></div>
             <ng-template #mainContent></ng-template>
         </div>
     </div>

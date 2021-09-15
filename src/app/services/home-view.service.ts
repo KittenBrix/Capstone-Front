@@ -6,6 +6,7 @@ import { PeopleComponent } from 'app/cohort/people/people.component';
 import { RecordingsComponent } from 'app/cohort/recordings/recordings.component';
 import { SchedulerComponent } from 'app/cohort/scheduler/scheduler.component';
 import { ViewComponent } from 'app/cohort/view/view.component';
+import { userRole } from 'app/common/types';
 import { environment } from 'environments/environment';
 import { Auth } from './auth.service';
 import { RestService } from './rest.service';
@@ -30,6 +31,10 @@ export class HomeViewService {
     RecordingsComponent,
     GoogleclassroomComponent
   ];
+  // shows roles for each cohort they might be part of.
+  private _roles: any[] = [];
+  private cohorts: number[] = [];
+  public activeCohort: number = null;
   private currentPage: string = '';
   private currentComponentRef: any;
   private containerRef: ViewContainerRef | null = null;
@@ -38,9 +43,38 @@ export class HomeViewService {
     private componentFactoryResolver: ComponentFactoryResolver,
     private authService: Auth,
     private restService: RestService) {
+      this.refreshCohorts();
 
   }
 
+  
+  private set roles(v : userRole[]) {
+    this._roles = v;
+  };
+
+  public get roles() : userRole[] {
+    return this._roles;
+  }
+
+  public async refreshRoles(): Promise<void>{
+    const data = await this.restService.req('get',`user/${this.authService.user.id}/roles`);
+    console.log('refreshroles',data);
+    this.roles = data as userRole[];
+  }
+  public async refreshCohorts(): Promise<void>{
+    const data = await this.restService.req('get','cohorts/');
+    if (data && data.length){
+      this.cohorts = data.map(item=>{return item.id;});
+    }
+  }
+  
+  public getRoles(): userRole[]{
+    return this._roles;
+  }
+
+  public getCohorts(): number[]{
+    return this.cohorts;
+  }
 
   public getNavigationOptions(){
     return HomeViewService.contentTerms;
