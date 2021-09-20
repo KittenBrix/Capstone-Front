@@ -1,3 +1,3 @@
-<app-data-list [datalist]="rolesArray" [contentType]="'roles for current user'" [fields]="describeRoles()" (dataChanged)="change(rolesArray,$event)">
+<app-data-list [datalist]="rolesArray" [contentType]="'roles'" [fields]="describeRoles()" (dataChanged)="change(rolesArray,$event)">
     <app-data-entry (creation)="add($event, rolesArray)" [fields]="rolesFields" [dropdownfields]="rolesDropDowns" class="expandW"></app-data-entry>
 </app-data-list>

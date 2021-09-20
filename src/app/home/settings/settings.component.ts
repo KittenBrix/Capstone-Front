@@ -297,7 +297,7 @@ export class SettingsComponent implements OnInit {
     return false;
   }
   canGiveRoles(){
-    if ([4,6,8].includes(this.authService.siteRole)){
+    if ([4,6,8].includes(this.authService.user.roleid)){
       return true;
     }
     return false;
