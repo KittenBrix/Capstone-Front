@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver } from '@angular/core';
+import { ComponentFactoryResolver, EventEmitter } from '@angular/core';
 import { Injectable, ViewContainerRef } from '@angular/core';
 import { AttendanceComponent } from 'app/cohort/attendance/attendance.component';
 import { GoogleclassroomComponent } from 'app/cohort/googleclassroom/googleclassroom.component';
@@ -34,16 +34,29 @@ export class HomeViewService {
   // shows roles for each cohort they might be part of.
   private _roles: any[] = [];
   private cohorts: number[] = [];
-  public activeCohort: number = null;
+  public _activeCohort: number = null;
+
+  public 
+  public set activeCohort(v : number) {
+    this._activeCohort = v;
+    this.activeCohortChange.emit(this._activeCohort);
+  }
+  public get activeCohort() : number {
+    return this._activeCohort;
+  }
+  
+  
   private currentPage: string = '';
   private currentComponentRef: any;
   private containerRef: ViewContainerRef | null = null;
+
+  public activeCohortChange: EventEmitter<number> = new EventEmitter<number>(true);
 
   constructor( 
     private componentFactoryResolver: ComponentFactoryResolver,
     private authService: Auth,
     private restService: RestService) {
-      this.refreshCohorts();
+      this.refreshRoles();
 
   }
 
@@ -57,16 +70,24 @@ export class HomeViewService {
   }
 
   public async refreshRoles(): Promise<void>{
-    const data = await this.restService.req('get',`user/${this.authService.user.id}/roles`);
+    const data = (await this.restService.req('get',`user/${this.authService.user.id}/roles/`))[0];
     console.log('refreshroles',data);
     this.roles = data as userRole[];
-  }
-  public async refreshCohorts(): Promise<void>{
-    const data = await this.restService.req('get','cohorts/');
-    if (data && data.length){
-      this.cohorts = data.map(item=>{return item.id;});
+    const values = this.roles.map(E=>{return E.cohortid;});
+    console.log('vals',values);
+    this.cohorts.splice(0,this.cohorts.length);
+    for (const I of values){
+      if (!this.cohorts.includes(+I)){
+        this.cohorts.push(+I);
+      }
     }
   }
+  // public async refreshCohorts(): Promise<void>{
+  //   const data = await this.restService.req('get','cohorts/');
+  //   if (data && data.length){
+  //     this.cohorts = data.map(item=>{return item.id;});
+  //   }
+  // }
   
   public getRoles(): userRole[]{
     return this._roles;

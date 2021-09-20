@@ -6,7 +6,8 @@ import { HomeViewService } from 'app/services/home-view.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-  currentContent:string = "Dashboard"; //use service to retrieve in future. TODO 
+  contextChangeListener:any;
+
   @ViewChild("mainContent",{static: false, read: ViewContainerRef}) mainContentRef: any;
 
   // TODO : change dynamic component loading to nested router outlet with a module. use workoutcenter.
@@ -34,6 +35,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
     content['as-menu expandW d-flex flex-row-reverse'] = !this.expanded();
     return content;
   }
+
+  cohort(){
+    return this.homeViewService.activeCohort;
+  }
+
+  
+  public get currentContent() : string {
+    return this.homeViewService.getCurrentComponentTitle();
+  }
+  
 
   
 }

@@ -1,0 +1,20 @@
+.name, .data{
+    margin: 0px !important;
+}
+.brick {
+    height: fit-content;
+    // min-height: 140px;
+    width: fit-content;
+    // min-width: 140px;
+    margin: 0.25em !important;
+    padding: 0.25em !important;
+}
+.container-fluid {
+    margin: 0px;
+    padding: 0px;
+}
+.label {
+    padding-left: 1em;
+    border-radius: 1em;
+    opacity: 80%;
+}

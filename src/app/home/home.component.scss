@@ -17,6 +17,7 @@
 #menubutton {
     margin-top: 0.25em;
     opacity: 50%;
+    z-index: 100;
 }
 #menubutton:hover{
     opacity: 100%;

@@ -49,10 +49,10 @@ export class DataEntryComponent implements OnInit, OnChanges{
     for (const key in this.model){
       this.model[key] = '';
     }
-    for (const key in data){
-      const control = this.getFormControl(key);
-      control.reset('');
-    }
+    // for (const key in data){
+    //   const control = this.getFormControl(key);
+    //   control.reset();
+    // }
   }
 
   valid():boolean{

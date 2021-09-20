@@ -14,8 +14,12 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(){
+    
   }
 
+  settingsPage(){
+    return `/settings/${this.authService.user.id}`;
+  }
 
   roleId(){
     return this.authService.siteRole;

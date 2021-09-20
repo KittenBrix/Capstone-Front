@@ -4,7 +4,7 @@
         <div [ngClass]="getClasses()" class="text-light">
             <ng-container *ngIf="!expanded()" >
                 <button id="menubutton"[matMenuTriggerFor]="menu" class="btn btn-dark text-light expandW">
-                    Cohort: 216 - {{currentContent}}
+                    Cohort: {{cohort()}} - {{currentContent}}
                 </button>
                 <mat-menu id="navigation-menu" #menu="matMenu" class="text-light bg-dark">
                     <app-cohort-navigator></app-cohort-navigator>

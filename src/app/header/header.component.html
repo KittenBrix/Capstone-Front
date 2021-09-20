@@ -15,7 +15,7 @@
             <ul class="dropdown-menu dropdown-menu-end bg-dark text-light" aria-labelledby="navbarDropdown">
                 <li class="d-sm-none d-flex expandW text-light"><input *ngIf="!(roleId() >= 5)" class="searchBar expandW form-control rounded bg-dark text-light" type="search" placeholder="Search" (keydown.enter)="search($event)"></li>
                 <li><a class="dropdown-item text-light" href="#" routerLink="/home" routerLinkActive="active">Dashboard</a></li>
-                <li><a class="dropdown-item text-light" href="#" routerLink="/settings" routerLinkActive="active">Change Account Settings</a></li>
+                <li><a class="dropdown-item text-light" href="#" [routerLink]="settingsPage()" routerLinkActive="active">Change Account Settings</a></li>
                 <li><hr class="dropdown-divider text-light"></li>
                 <li><a class="dropdown-item" style="color: red;" href="#" (click)="logout()">Log Out</a></li>
             </ul>

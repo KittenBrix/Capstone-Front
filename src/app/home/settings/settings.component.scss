@@ -31,3 +31,42 @@ $blue: 240;
 #roles {
     margin: 0px;
 }
+
+.brick{
+    flex-basis: 0px;
+    flex-grow: 1;
+    margin: 0.5em;
+}
+
+.load{
+    filter: brightness(30%);
+}
+
+.errorText {
+    color: rgb(255, 39, 75);
+    margin: 0px;
+    padding: 0.5em;
+    filter: contrast(100);
+    font-size: medium;
+}
+
+input, select{
+    border-radius: 0.5em;
+    min-width: 200px;
+    padding: 0.5em;
+}
+
+hr {
+    margin: 0.5em;
+    height: 3em;
+    border-radius: 0.5em;
+    opacity: 0%;
+}
+
+.label {
+    opacity: 50%;
+    margin: 0px;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-radius: 0.5em;
+}

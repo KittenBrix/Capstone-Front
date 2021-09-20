@@ -1,75 +1,86 @@
-<div id="content" class="container-fluid">
+<div id="content" class="container-fluid" >
     <div id="account-actions" class="row">
-        <div id="contact-bank" class="col-md-4 d-flex flex-column align-items-center table-container">
+        <div id="contact-bank" class="col-md-4 d-flex flex-column align-items-center table-container" *ngIf="canEdit()">
             <h1>Contact Information</h1>
             <!-- change account contact items (email/phone) -->
-            <app-data-list [canEditCallback]="defaultEdit" [canDeleteCallback]="defaultDelete" [datalist]="phones" [contentType]="'Phones'" [fields]="describePhones()" (dataChanged)="change(phones,$event)" class="expandW">
-                <app-data-entry (creation)="add($event, phones)" [fields]="phoneFields" [dropdownfields]="phoneDropDowns" class="expandW"></app-data-entry>
+            <app-data-list [canEditCallback]="defaultEdit" [canDeleteCallback]="defaultDelete" [datalist]="phones" [contentType]="'Phones'" [fields]="describePhones()" (dataChanged)="change(phones,$event)" class="expandW" [ngClass]="{load: this.loading.includes('phones')}">
+                <app-data-entry (creation)="add($event, 'phones')" [fields]="phoneFields" [dropdownfields]="phoneDropDowns" class="expandW"></app-data-entry>
             </app-data-list>
-            <app-data-list [datalist]="emails" [contentType]="'Emails'" [fields]="describeEmails()" (dataChanged)="change(emails,$event)" class="expandW">
-                <app-data-entry (creation)="add($event, emails)" [fields]="emailFields" [dropdownfields]="emailDropDowns" class="expandW"></app-data-entry>
+            <app-data-list [datalist]="emails" [contentType]="'Emails'" [fields]="describeEmails()" (dataChanged)="change(emails,$event)" class="expandW" [ngClass]="{load: this.loading.includes('emails')}">
+                <app-data-entry (creation)="add($event, 'emails')" [fields]="emailFields" [dropdownfields]="emailDropDowns" class="expandW"></app-data-entry>
             </app-data-list>
         </div>
         <div id="account-settings" class="col-md-8 d-flex flex-column align-items-center table-container">
             <!-- change base account stuff -->
-            <h1>Account Settings</h1>
-            <div class="expandW card">
-                <form [formGroup]="nameForm" (ngSubmit)="submitNameForm()" class="expandW">
-                    <div class="form-group expandW d-flex justify-content-between">
-                        <mat-form-field appearance="outline" class="flex-grow-1">
-                            <mat-label class="text-light">First Name</mat-label>
-                            <input formControlName="firstName" class="text-light" 
-                            matInput placeholder="First Name">
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="flex-grow-1">
-                            <mat-label class="text-light">Last Name</mat-label>
-                            <input formControlName="lastName" class="text-light"
-                            matInput placeholder="Last Name">
-                        </mat-form-field>
-                        <button class="btn btn-dark" type="submit">
-                            <mat-icon aria-hidden="false" aria-label="Example home icon">save</mat-icon>
-                        </button>
-                    </div>
-                </form>
+            <h1>{{getAccountTitle}}</h1>
+            <div class="expandW card" [ngClass]="{load: this.loading.includes('settings')}">
+                <div class="expandW d-flex justify-content-between flex-wrap">
+                    <input [(ngModel)]="fname" type="text" name="fname" placeholder="first name" class="bg-dark text-light brick" [disabled]="!canEdit()">
+                    <input [(ngModel)]="lname" type="text" name="lname" placeholder="last name" class="bg-dark text-light brick" [disabled]="!canEdit()">
+                    <button class="btn btn-dark expandW" (click)="submitNameForm()" [disabled]="this.submittedName" *ngIf="canEdit()">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon">save</mat-icon>
+                    </button>
+                    <p class="expandW errorText">{{nameError}}</p>
+                </div>
                 <hr>
-                <form [formGroup]="defaultsForm" (ngSubmit)="submitDefaultsForm()" class="expandW container-fluid">
-                    <div class="form-group expandW row">
-                        <mat-form-field appearance="outline" class="col">
-                            <mat-label class="text-light">Primary/Recovery Email</mat-label>
-                            <mat-select formControlName="email" matInput class="text-light">
-                                <mat-option *ngFor="let email of emails" value="email" class="text-light">{{email.email}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="col">
-                            <mat-label class="text-light" >Primary/Recovery Phone</mat-label>
-                            <mat-select formControlName="phone" matInput class="text-light">
-                                <mat-option *ngFor="let phone of phones" value="email" class="text-light">{{phone.phone}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="col">
-                            <mat-label class="text-light">Clockify Email</mat-label>
-                            <mat-select formControlName="clockify" matInput class="text-light">
-                                <mat-option *ngFor="let email of emails" value="email" class="text-light">{{email.email}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="col">
-                            <mat-label class="text-light">Google Email</mat-label>
-                            <mat-select formControlName="google" matInput class="text-light">
-                                <mat-option *ngFor="let email of emails" value="email" class="text-light">{{email.email}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" class="col">
-                            <mat-label class="text-light">Discord Name and Pin (YourTag#0000)</mat-label>
-                            <input formControlName="discord" class="text-light"
-                            matInput placeholder="YourTag#0000">
-                        </mat-form-field>
-                        <button class="btn btn-dark" type="submit" >
-                            <mat-icon aria-hidden="false" aria-label="Save Defaults icon">save</mat-icon>
-                        </button>
+                <div class="expandW d-flex flex-wrap justify-content-start">
+                    <div class="brick d-flex flex-column align-items-start">
+                        <p class="label bg-dark text-light expandW">Primary Email</p>
+                        <select [(ngModel)]="primaryEmail" class="bg-dark text-light flex-grow-1 expandW" [disabled]="!canEdit()">
+                            <option [value]="primaryEmail" disabled [attr.selected]="true">{{primaryEmail}}</option>
+                            <option *ngFor="let email of emails" [value]="email.email" class="bg-dark text-light">{{email.email}}</option>
+                        </select>
                     </div>
-                </form>
+                    <div class="brick d-flex flex-column align-items-start">
+                        <p class="label bg-dark text-light expandW">Primary Phone</p>
+                        <select [(ngModel)]="primaryPhone" class="bg-dark text-light flex-grow-1 expandW" [disabled]="!canEdit()">
+                            <option [value]="primaryPhone" disabled [attr.selected]="true">{{primaryPhone}}</option>
+                            <option *ngFor="let phone of phones" [value]="phone.phone" class="bg-dark text-light">{{phone.phone}}</option>
+                        </select>
+                    </div>
+                    <div class="brick d-flex flex-column align-items-start">
+                        <p class="label bg-dark text-light expandW">Clockify Email</p>
+                        <select name="clockifyEmail" [(ngModel)]="clockifyEmail" id="clockifyEmail" class="bg-dark text-light flex-grow-1 expandW" [disabled]="!canEdit()">
+                            <option [value]="clockifyEmail" disabled [attr.selected]="true">{{primaryEmail}}</option>
+                            <option *ngFor="let email of emails" [value]="email.email" class="bg-dark text-light">{{email.email}}</option>
+                        </select>
+                    </div>
+                    <div class="brick d-flex flex-column align-items-start">
+                        <p class="label bg-dark text-light expandW">Classroom Email</p>
+                        <select name="googleEmail" [(ngModel)]="googleEmail" id="googleEmail" class="bg-dark text-light flex-grow-1 expandW" [disabled]="!canEdit()">
+                            <option [value]="googleEmail" disabled [attr.selected]="true">{{googleEmail}}</option>
+                            <option *ngFor="let email of emails" [value]="email.email" class="bg-dark text-light">{{email.email}}</option>
+                        </select>
+                    </div>
+                    <div class="brick d-flex flex-column align-items-start">
+                        <p class="label bg-dark text-light expandW">Discord tag</p>
+                        <input type="text" [(ngModel)]="discordInfo" name="discordInfo" placeholder="Discord Name and Pin (YourTag#0000)" class="bg-dark text-light flex-grow-1 expandW " [disabled]="!canEdit()">
+                    </div>
+
+                    <button class="btn btn-dark expandW" *ngIf="canEdit()" (click)="submitDefaultsForm()">
+                        <mat-icon aria-hidden="false" aria-label="Save Defaults icon">save</mat-icon>
+                    </button>
+                    <p class="expandW errorText">{{defaultError}}</p>
+                </div>
             </div>
-            <div id="roles" class="expandW">
+            <div class="expandW card" *ngIf="canEdit()">
+                <div class="expandW d-flex justify-content-between flex-wrap">
+                    <p class="expandW text-light">Change Password?</p>
+                    <div class="brick d-flex flex-column align-items-start">
+                        <p class="label bg-dark text-light expandW">New Password</p>
+                        <input type="password" [(ngModel)]="newPassword" name="newPassword" placeholder="new password" class="bg-dark text-light flex-grow-1 expandW " [disabled]="!canEdit()">
+                    </div>
+                    <div class="brick d-flex flex-column align-items-start">
+                        <p class="label bg-dark text-light expandW">Confirm Password</p>
+                        <input type="password" [(ngModel)]="newPassword2" name="newPassword2" placeholder="confirm new password" class="bg-dark text-light flex-grow-1 expandW " [disabled]="!canEdit()">
+                    </div>
+                    <button class="btn btn-dark expandW" *ngIf="canEdit()" (click)="submitPassword()">
+                        <mat-icon aria-hidden="false" aria-label="Save Defaults icon">save</mat-icon>
+                    </button>
+                    <p class="expandW errorText">{{passError}}</p>
+                </div>
+            </div>
+            <div id="roles" class="expandW" *ngIf="canGiveRoles()">
                 <app-roles></app-roles>
             </div>
         </div>

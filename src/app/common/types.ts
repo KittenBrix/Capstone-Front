@@ -3,7 +3,7 @@ export interface userPhone {
     userId?: number,
     phone?: string,
     user?: string,
-    type?: string,
+    typename?: string,
     usercase?: string,
 }
 
@@ -11,14 +11,14 @@ export interface userEmail {
     id?: number,
     userId?: number,
     email?: string,
-    type?: string,
+    typename?: string,
 }
 
 export interface userRole {
     id?: number,
-    userId?: number,
-    roleId?: number,
-    cohortId?: string,
+    userid?: number,
+    roleid?: number,
+    cohortid?: string,
 }
 
 export enum userRoleEnum {
@@ -34,6 +34,7 @@ export enum userRoleEnum {
 
 export interface DataChangeEvent {
     type: 'add' | 'delete' | 'edit';
+    field?: string;
     content: any;
     index: number;
 }

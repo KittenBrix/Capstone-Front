@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Auth } from 'app/services/auth.service';
 import { HomeViewService } from 'app/services/home-view.service';
 import { RestService } from 'app/services/rest.service';
@@ -7,6 +7,7 @@ import {MatDatepickerInput, MatDatepickerInputEvent, MatDatepickerModule} from '
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import * as moment from 'moment';
+import { WeeklytimeviewComponent } from 'app/weeklytimeview/weeklytimeview.component';
 
 @Component({
   selector: 'app-attendance',
@@ -16,21 +17,44 @@ import * as moment from 'moment';
 export class AttendanceComponent implements OnInit {
   selectedDays: moment.Moment[] = [null,null];
   selectedCohort: string ='';
-  selectedPerson: string = '';
+  _selectedPerson: string = '';
+  @ViewChild(WeeklytimeviewComponent)
+  weekView: WeeklytimeviewComponent;
   timeEntries: any[] = [];
   cohorts: any[] = [];
   persons: any[] = [];
   loading: any[] = [];
+  activeCohortListener: any;
 
   constructor(
-    public homeService: HomeViewService,
-    public restService: RestService,
-    public authService: Auth) {
-    this.load();
+  public homeService: HomeViewService,
+  public restService: RestService,
+  public authService: Auth) {
+    this.activeCohortListener = homeService.activeCohortChange.subscribe(async (val)=>{
+      await this.load();
+      this.selectedPerson = this.persons[0].id;
+    });
+    this.load().then(()=>{this.selectedPerson = this.persons[0].id;})
   }
 
   ngOnInit(): void {
   }
+
+
+  public set selectedPerson(v : string) {
+    this._selectedPerson = v;
+    this.getUserTimes(this._selectedPerson).then(async val =>{
+      this.loading.push(true);
+      this.weekView.timeEntries = val;
+      await this.weekView.render();
+      this.loading.pop();
+    });
+  }
+  
+  public get selectedPerson() : string {
+    return this._selectedPerson;
+  }
+
 
   async load(){
     // load all your cohorts.
@@ -45,24 +69,28 @@ export class AttendanceComponent implements OnInit {
     let id = this.homeService.activeCohort;
     if (id){
       const proms = await Promise.all([
-        this.restService.req('get',`cohorts/${id}/people`),
-        this.restService.req('get',`cohorts/${id}/timeEntries`)
+        this.restService.req('get',`cohorts/${id}/people/`),
+        this.restService.req('get',`cohorts/${id}/timeEntries/`)
       ]);
-      console.log('proms',proms);
+      // console.log('proms',proms);
       this.persons = proms[0];
       this.timeEntries = proms[1];
+      console.log('persons in cohort,',this.persons);
+      console.log('entries',this.timeEntries);
       this.selectedPerson = this.persons[0].id;
     }
     this.loading.pop();
   }
 
-  getUserTimes(id:any){
-    const data = this.timeEntries.filter((entry)=>{return (entry.userid == id);});
-    return data;
+  async getUserTimes(id:any){
+    const result = await this.restService.req('get',`user/${id}/timeEntries/`);
+    console.log('getUserTimes',result);
+    // const data = this.timeEntries.filter((entry)=>{return (entry.userid == id);});
+    return result[0];
   }
 
   // reporting feature.
-  downloadTimes(){
+  async downloadTimes(){
     this.loading.push(true);
     const wb = XLSX.utils.book_new();
     wb.Props = {
@@ -82,13 +110,19 @@ export class AttendanceComponent implements OnInit {
       
       ws_data.push([`Log For period ${start.format("M/D")} to ${end.format("M/D")}`],['User id','Name','Hours During Period','Activity Count This Period']);
       // userid, first+last, hours for entries within period, number of qualifying entries
-      for (const user of this.persons){
-        const times = this.getUserTimes(user.id);
+      userloop: for (const user of this.persons){
+        const times = await this.getUserTimes(user.id);
+        if (!(times && times.length)){
+          continue userloop;
+        }
         const data = times.filter((entry)=>{
           const s = moment(entry.start);
           const e = moment(entry.end);
           return ((s.isSameOrAfter(start)&&s.isSameOrBefore(end)) ||(e.isSameOrAfter(start)&&e.isSameOrBefore(end)));
         });
+        if (!(data && data.length)){
+          continue userloop;
+        }
         const minutes = data.reduce((prev,entry)=>{
           const s = moment(entry.start);
           const e = moment(entry.end);
@@ -101,7 +135,7 @@ export class AttendanceComponent implements OnInit {
     } else {
       ws_data.push([`Complete Time Log`],['User id','Name','Total Hours','Total Activity Count']);
       for (const user of this.persons){
-        const times = this.getUserTimes(user.id);
+        const times = await this.getUserTimes(user.id);
         const minutes = times.reduce((prev,entry)=>{
           const s = moment(entry.start);
           const e = moment(entry.end);
@@ -118,7 +152,7 @@ export class AttendanceComponent implements OnInit {
     this.loading.pop();
   }
 
-  downloadUser(){
+  async downloadUser(){
     this.loading.push(true);
     const user = this.persons.find((person)=>{
       return (person.id == this.selectedPerson);
@@ -134,6 +168,7 @@ export class AttendanceComponent implements OnInit {
 
     const day1 = this.selectedDays[0];
     const day2 = this.selectedDays[1];
+    console.log(this.selectedDays);
     const ws_data = [];
     if (day1 && day2){
       const start = (day1.isBefore(day2)) ? day1: day2;
@@ -141,7 +176,7 @@ export class AttendanceComponent implements OnInit {
       
       ws_data.push([`Log For period ${start.format("M/D")} to ${end.format("M/D")}`],['StartTime','EndTime','Hours','Source or Description']);
       // userid, first+last, hours for entries within period, number of qualifying entries
-      const times = this.getUserTimes(user.id);
+      const times = await this.getUserTimes(user.id);
       const data = times.filter((entry)=>{
         const s = moment(entry.start);
         const e = moment(entry.end);
@@ -160,7 +195,7 @@ export class AttendanceComponent implements OnInit {
     } else {      
       ws_data.push([`${user.firstname} ${user.lastname} hour totals`],['StartTime','EndTime','Hours','Source or Description']);
       // userid, first+last, hours for entries within period, number of qualifying entries
-      const times = this.getUserTimes(user.id);
+      const times = await this.getUserTimes(user.id);
       let minutes = 0;
       for (const entry of times){
         const s = moment(entry.start);

@@ -11,7 +11,7 @@ import { LoggedInGuard } from './auth.guard';
 const routes: Routes = [
   {path: 'access', component: LoginRegisterComponent},
   {path: 'practice', component: PracticeComponent},
-  {path: 'settings', component: SettingsComponent},
+  {path: 'settings/:id', component: SettingsComponent},
   {path: 'week', component: WeeklytimeviewComponent},
   {path: 'home', component: HomeComponent, canActivate: [LoggedInGuard]},
   {path: '**', component: P404Component}

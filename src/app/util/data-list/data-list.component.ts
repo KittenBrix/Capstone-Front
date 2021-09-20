@@ -36,7 +36,10 @@ export class DataListComponent implements OnInit, OnChanges {
     if (this.datalist && this.datalist.length && !this.contentType){
       this.contentType = this.datalist[0].constructor.name;
     }
-    this.displayedColumns = [...this.describeData(), 'action'];
+    this.displayedColumns = this.describeData();
+    if (this.anyActionable()){
+      this.displayedColumns.push('action');
+    }
     if (this.table){
       this.table.renderRows();
     }
@@ -51,7 +54,8 @@ export class DataListComponent implements OnInit, OnChanges {
       this.dataChanged.emit({
         type: 'delete',
         content: value,
-        index: index
+        index: index,
+        field: this.contentType.toLowerCase()
       });
     }
     if (this.table){
@@ -87,5 +91,16 @@ export class DataListComponent implements OnInit, OnChanges {
 
   removable(element: any): boolean{
     return this.canDelete(element);
+  }
+
+  anyActionable(): boolean{
+    try {
+      return this.datalist.some((el)=>{
+        return this.canDelete(el);
+      });
+    } catch (err){
+      // console.log(err);
+      return false;
+    }
   }
 }

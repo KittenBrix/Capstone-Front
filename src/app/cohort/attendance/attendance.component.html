@@ -2,15 +2,15 @@
     <div class="row card">
         <div class="col d-flex flex-row align-items-center justify-space-start">
             <p class="text-light m-1">person:&nbsp;</p>
-            <select class="bg-dark text-light m-1" [(ngModel)]="selectedPerson" name="persons" id="persons">
-                <option *ngFor="let person of persons" value="person.id" class="text-light bg-dark">{{person.firstname}} {{person.lastname}}</option>
+            <select class="bg-dark text-light m-1" [(ngModel)]="selectedPerson" name="persons" id="persons" [disabled]="loading && loading.length!=0">
+                <option *ngFor="let person of persons" [value]="person.id" class="text-light bg-dark">{{person.firstname}} {{person.lastname}}</option>
                 <option value="0" class="text-light bg-dark">No one</option>
             </select>
         </div>
     </div>
     <div class="row" id="viewer">
-        <p *ngIf="loading.length">Waiting for data...</p>
-        <app-weeklytimeview *ngIf="!loading.length" [scheduleData]="getUserTimes(selectedPerson)" class="card"></app-weeklytimeview>
+        <p *ngIf="loading && loading.length">Waiting for data...</p>
+        <app-weeklytimeview *ngIf="!(loading && loading.length)" class="card"></app-weeklytimeview>
 
     </div>
     <div class="row d-flex flex-row justify-space-between card" *ngIf="!loading.length" id="DownloadCard">
@@ -25,7 +25,7 @@
             <mat-datepicker-toggle class="text-light" matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker class="text-light" #picker2></mat-datepicker>
         </mat-form-field>
-        <button class="btn btn-dark text-light m-1" (click)="downloadTimes()" [disabled]="loading">Cohort Times</button>
-        <button class="btn btn-dark text-light m-1" (click)="downloadUser()" [disabled]="loading">User Times</button>
+        <button class="btn btn-dark text-light m-1" (click)="downloadTimes()" [disabled]="loading && loading.length">Cohort Times</button>
+        <button class="btn btn-dark text-light m-1" (click)="downloadUser()" [disabled]="loading && loading.length">User Times</button>
     </div>
 </div>

@@ -1,11 +1,12 @@
-<div class="expandH expandW container-fluid" (window:resize)="onResize($event)" #schedule >
-    <div class="expandH expandW row" id="schedule" >
-        <button class="col btn btn-dark text-light flex-grow-1" (click)="minus()"><</button>
-        <div class="col expandH d-flex flex-column align-items-center" *ngFor="let day of getDays(); index as i">
+<div class="expandH expandW" (window:resize)="onResize($event)" #schedule >
+    <div class="expandH expandW d-flex flex-row justify-content-between" id="schedule" >
+        <button class="expandH btn btn-dark text-light" (click)="minus()"><</button>
+        <div class="dayview expandH d-flex flex-column align-items-center" *ngFor="let day of getDays(); index as i">
             <p>{{day}}</p>
-            <canvas class="flex-grow-1 expandW" #canvas>
-            </canvas>
+            <div class="dayview">
+                <canvas class="expandH expandW" #canvas></canvas>
+            </div>
         </div>
-        <button class="col btn btn-dark text-light flex-grow-1" (click)="add()">></button>
+        <button class="expandH btn btn-dark text-light" (click)="add()">></button>
     </div>
 </div>
