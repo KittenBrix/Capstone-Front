@@ -1,18 +1,18 @@
 <div class="container-fluid d-flex flex-row flex-wrap align-items-center justify-content-center">
     <h2 class="text-light expandW bg-dark label">Students</h2>
-    <div class="brick card d-flex flex-column align-items-start" *ngFor="let person of peopleByRole('student')" (click)="showPerson(person.id)" (contextmenu)="onContextMenu($event, person)">
+    <div class="brick card d-flex flex-column align-items-start" *ngFor="let person of peopleByRole('student')" (click)="showPerson(person.id)" (contextmenu)="onContextMenu($event, person)" [ngClass]="{'self': (person.id == authService.user.id)}">
         <!-- <p>{{show(person)}}</p> -->
         <h4 class="name">{{person.firstname}} {{person.lastname}}</h4>
         <h6 class="data">{{person.userrole}} with Generic Company</h6>
     </div>
     <h2 class="text-light expandW bg-dark label">Teachers</h2>
-    <div class="brick card d-flex flex-column align-items-start" *ngFor="let person of peopleByRole('teacher')" (click)="showPerson(person.id)" (contextmenu)="onContextMenu($event, person)">
+    <div class="brick card d-flex flex-column align-items-start" *ngFor="let person of peopleByRole('teacher')" (click)="showPerson(person.id)" (contextmenu)="onContextMenu($event, person)" [ngClass]="{'self': (person.id == authService.user.id)}">
         <!-- <p>{{show(person)}}</p> -->
         <h4 class="name">{{person.firstname}} {{person.lastname}}</h4>
         <h6 class="data">{{person.userrole}} with Generic Company</h6>
     </div>
     <h2 class="text-light expandW bg-dark label">Administrators</h2>
-    <div class="brick card d-flex flex-column align-items-start" *ngFor="let person of peopleByRole('adminowner')" (click)="showPerson(person.id)" (contextmenu)="onContextMenu($event, person)">
+    <div class="brick card d-flex flex-column align-items-start" *ngFor="let person of peopleByRole('adminowner')" (click)="showPerson(person.id)" (contextmenu)="onContextMenu($event, person)" [ngClass]="{'self': (person.id == authService.user.id)}">
         <!-- <p>{{show(person)}}</p> -->
         <h4 class="name">{{person.firstname}} {{person.lastname}}</h4>
         <h6 class="data">{{person.userrole}} with Generic Company</h6>

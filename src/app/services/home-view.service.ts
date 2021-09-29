@@ -1,5 +1,7 @@
 import { ComponentFactoryResolver, EventEmitter } from '@angular/core';
 import { Injectable, ViewContainerRef } from '@angular/core';
+import { AssignmentsComponent } from 'app/assignments/assignments.component';
+import { SubmissionViewComponent } from 'app/assignments/submission-view/submission-view.component';
 import { AttendanceComponent } from 'app/cohort/attendance/attendance.component';
 import { GoogleclassroomComponent } from 'app/cohort/googleclassroom/googleclassroom.component';
 import { PeopleComponent } from 'app/cohort/people/people.component';
@@ -7,7 +9,6 @@ import { RecordingsComponent } from 'app/cohort/recordings/recordings.component'
 import { SchedulerComponent } from 'app/cohort/scheduler/scheduler.component';
 import { ViewComponent } from 'app/cohort/view/view.component';
 import { userRole } from 'app/common/types';
-import { environment } from 'environments/environment';
 import { Auth } from './auth.service';
 import { RestService } from './rest.service';
 
@@ -21,7 +22,9 @@ export class HomeViewService {
     'Schedule',
     'Attendance',
     'Recordings',
-    'gClass'
+    'gClass',
+    'Assignments',
+    'Submissions'
   ];
   private static componentList = [
     ViewComponent,
@@ -29,14 +32,16 @@ export class HomeViewService {
     SchedulerComponent,
     AttendanceComponent,
     RecordingsComponent,
-    GoogleclassroomComponent
+    GoogleclassroomComponent,
+    AssignmentsComponent,
+    SubmissionViewComponent
   ];
   // shows roles for each cohort they might be part of.
   private _roles: any[] = [];
   private cohorts: number[] = [];
   public _activeCohort: number = null;
+  public submissionData: any = null;
 
-  public 
   public set activeCohort(v : number) {
     this._activeCohort = v;
     this.activeCohortChange.emit(this._activeCohort);
@@ -106,6 +111,7 @@ export class HomeViewService {
     if (index >= 0){
       return HomeViewService.componentList[index];
     }
+
     throw new Error(`Can't produce a component from the value provided (${JSON.stringify(term)})`);
   }
 
@@ -142,4 +148,9 @@ export class HomeViewService {
   public getCurrentComponentTitle(){
     return this.currentPage;
   }
+
+  public setSubmissionData(arg:any){
+    this.submissionData = arg;
+  }
+
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RestService } from 'app/services/rest.service';
 
 @Component({
   selector: 'app-assignments',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssignmentsComponent implements OnInit {
 
-  constructor() { }
+  _categories: any[] = [];
 
-  ngOnInit(): void {
+
+  constructor(public rest: RestService) { }
+
+  async ngOnInit(): Promise<void> {
+    await this.refreshData();
   }
 
+
+
+  async refreshData(){
+    this._categories = await this.rest.req('get',`categories/`);
+  }
 }

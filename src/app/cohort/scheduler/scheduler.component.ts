@@ -74,6 +74,15 @@ export class SchedulerComponent implements OnInit {
           }
           check = check.add(reps,'days');
         }
+      } else {
+        if (start.isSameOrAfter(lastWeek) && start.isSameOrBefore(nextWeek)){
+          data.push({
+            time2: moment(start.utc(true)),
+            time: `${start.format('MM/DD')} - ${hours}`,
+            description,
+            duration: `${duration} hours`
+          });
+        }
       }
     }
     this.events = data.sort((f,s)=>{

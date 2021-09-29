@@ -1,0 +1,28 @@
+// .invisible {
+//     font-weight: bold;
+//     height: 100px;
+//     width: 100px;
+// }
+label {
+    font-size: large;
+    padding-right: 1em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.folder {
+    padding-left: 2em;
+    margin-top: 0.5em;
+
+}
+
+a {
+    font-style: normal;
+}
+
+.outliner{
+    border-bottom-color: rgba($color: #000000, $alpha: 0.3);
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    margin-bottom: 1em;
+}

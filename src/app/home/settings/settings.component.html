@@ -41,7 +41,7 @@
                     <div class="brick d-flex flex-column align-items-start">
                         <p class="label bg-dark text-light expandW">Clockify Email</p>
                         <select name="clockifyEmail" [(ngModel)]="clockifyEmail" id="clockifyEmail" class="bg-dark text-light flex-grow-1 expandW" [disabled]="!canEdit()">
-                            <option [value]="clockifyEmail" disabled [attr.selected]="true">{{primaryEmail}}</option>
+                            <option [value]="clockifyEmail" disabled [attr.selected]="true">{{clockifyEmail}}</option>
                             <option *ngFor="let email of emails" [value]="email.email" class="bg-dark text-light">{{email.email}}</option>
                         </select>
                     </div>

@@ -1,1 +1,13 @@
-<p>assignments works!</p>
+<div class="card">
+    <div class="expandW" *ngIf="_categories.length">
+        <div *ngFor="let category of _categories" class="expandW">
+            <div class="d-flex flex-row justify-content-start expandW roundout" (click)="checker.checked = !checker.checked" [ngClass]="{'bg-dark':checker.checked}">
+                <input #checker type="checkbox" [name]="category.name" [id]="category.name" class="invisible">
+                <label [for]="category.name">{{category.name}}</label>
+                <label [hidden]="checker.checked">></label>
+                <label [hidden]="!checker.checked">X</label>
+            </div>
+            <app-category-view [category]="category" *ngIf="checker.checked"></app-category-view>
+        </div>
+    </div>
+</div>

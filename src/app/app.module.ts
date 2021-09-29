@@ -13,9 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { PracticeComponent } from './practice/practice.component';
 import { SettingsComponent } from './home/settings/settings.component';
 import { AssignmentsComponent } from './assignments/assignments.component';
-import { CertsComponent } from './assignments/certs/certs.component';
-import { HomeworkComponent } from './assignments/homework/homework.component';
-import { FreecodecampComponent } from './assignments/freecodecamp/freecodecamp.component';
 import { ViewComponent } from './cohort/view/view.component';
 import { PeopleComponent } from './cohort/people/people.component';
 import { SchedulerComponent } from './cohort/scheduler/scheduler.component';
@@ -41,6 +38,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { JWTService } from './services/jwt.service';
 import { LoggedInGuard } from './auth.guard';
+import { CategoryViewComponent } from './assignments/category-view/category-view.component';
+import { SubmissionViewComponent } from './assignments/submission-view/submission-view.component';
 
 
 @NgModule({
@@ -54,9 +53,6 @@ import { LoggedInGuard } from './auth.guard';
     PracticeComponent,
     SettingsComponent,
     AssignmentsComponent,
-    CertsComponent,
-    HomeworkComponent,
-    FreecodecampComponent,
     ViewComponent,
     PeopleComponent,
     SchedulerComponent,
@@ -68,6 +64,8 @@ import { LoggedInGuard } from './auth.guard';
     RolesComponent,
     CohortNavigatorComponent,
     WeeklytimeviewComponent,
+    CategoryViewComponent,
+    SubmissionViewComponent,
   ],
   imports: [
     BrowserModule,

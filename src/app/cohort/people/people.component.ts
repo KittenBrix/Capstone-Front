@@ -3,6 +3,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
 import { HomeViewService } from 'app/services/home-view.service';
 import { RestService } from 'app/services/rest.service';
 import { Router } from '@angular/router';
+import { Auth } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-people',
@@ -13,7 +14,7 @@ export class PeopleComponent implements OnInit {
   people: any[] = [];
   _cohort:number;
   cohortChangeListener: any;
-  constructor(public homeService:HomeViewService, public restService: RestService, public router: Router) {
+  constructor(public homeService:HomeViewService, public restService: RestService, public router: Router, public authService:Auth) {
     this.cohortChangeListener = homeService.activeCohortChange.subscribe(async (val)=>{
       this.cohort = val;
     });
@@ -39,7 +40,13 @@ export class PeopleComponent implements OnInit {
 
   async getPeople(){
     const data: any =  await this.restService.req('get',`cohorts/${this.cohort}/people/`);
-    this.people = data;
+    this.people.splice(0, this.people.length);
+    for (const person of data){
+      if (!this.people.map(el=>{return el.id}).includes(person.id)){
+        this.people.push(person);
+      }
+    }
+    // this.people = data;
   }
 
   showPerson(id:number){
@@ -73,7 +80,11 @@ export class PeopleComponent implements OnInit {
 
   peopleByRole(role:string){
     return this.people.filter((person)=>{
-      return role.includes(person.cohortrole);
+      if (person.cohortrole){
+        return role.includes(person.cohortrole);
+      } else {
+        return role.includes(person.userrole);
+      }
     });
   }
 }

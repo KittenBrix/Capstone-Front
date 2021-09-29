@@ -1,1 +1,86 @@
-<p>view works!</p>
+<div id="content" class="container-fluid" >
+    <div id="Recent Activity" class="row" *ngIf="!_loading[0]">
+        <div class="col card d-flex flex-column justify-content-center align-items-center">
+            <button class="expandW btn btn-dark text-light" *ngIf="detailsOpen[0]" (click)="detailsOpen[0] = !detailsOpen[0]">Hide Recent Account Activity</button>
+            <button class="expandW btn btn-dark text-light" *ngIf="!detailsOpen[0]" (click)="detailsOpen[0] = !detailsOpen[0]">Show Recent Account Activity</button>
+            <br>
+            <table *ngIf="detailsOpen[0]" class="expandW">
+                <tr>
+                    <th *ngFor="let header of describeRecentData"><b>{{header}}</b></th>
+                </tr>
+                <tr *ngFor="let item of RecentData">
+                    <td *ngFor="let field of describeRecentData">{{item[field]}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="Upcoming Activity" class="row" *ngIf="!_loading[1]">
+        <div class="col card d-flex flex-column justify-content-center align-items-center">
+            <button class="expandW btn btn-dark text-light" *ngIf="detailsOpen[1]" (click)="detailsOpen[1] = !detailsOpen[1]">Hide Upcoming Events</button>
+            <button class="expandW btn btn-dark text-light" *ngIf="!detailsOpen[1]" (click)="detailsOpen[1] = !detailsOpen[1]">Show Upcoming Events</button>
+            <br>
+            <table *ngIf="detailsOpen[1]" class="expandW">
+                <tr>
+                    <th *ngFor="let header of describeUpcomingData"><b>{{header}}</b></th>
+                </tr>
+                <tr *ngFor="let item of UpcomingData">
+                    <td *ngFor="let field of describeUpcomingData">{{item[field]}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="Assignments Left" class="row" *ngIf="!_loading[2] && AssignmentData.length">
+        <div class="col card d-flex flex-column justify-content-center align-items-center">
+            <button class="expandW btn btn-dark text-light" *ngIf="detailsOpen[2]" (click)="detailsOpen[2] = !detailsOpen[2]">Hide Assignments Left</button>
+            <button class="expandW btn btn-dark text-light" *ngIf="!detailsOpen[2]" (click)="detailsOpen[2] = !detailsOpen[2]">Show Assignments Left</button>
+            <br>
+            <div *ngIf="detailsOpen[2]" class="expandW">
+                <div *ngFor="let modulename of keys(Submissions)" class="expandW folder text-light folder">
+                    <div class="d-flex flex-row justify-content-start expandW" (click)="checker.checked = !checker.checked" [ngClass]="{'bg-dark':checker.checked}">
+                        <input #checker type="checkbox" [name]="modulename" [id]="modulename" class="invisible">
+                        <label [for]="modulename">({{totalSubmissions(Submissions[modulename])}}) - {{modulename}}</label>
+                    </div> 
+                    <table *ngIf="checker.checked" class="expandW card folder">
+                        <div class="row expandW text-light folder outliner">
+                            <div class="col">Assignment</div>
+                            <div class="col">Submitted</div>
+                            <div class="col">Graded</div>
+                            <div class="col">Passed</div>
+                        </div>
+                        <div *ngFor="let item of Submissions[modulename]" class="row expandW text-light folder outliner" (click)="submission(item.userid, item.assignmentid, item.submissionid)">
+                            <div *ngFor="let field of describe(item)" class="col">{{field}}</div>
+                        </div>
+                    </table>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="Grading Left" class="row" *ngIf="!_loading[2] && GradeData.length">
+        <div class="col card d-flex flex-column justify-content-center align-items-center">
+            <button class="expandW btn btn-dark text-light" *ngIf="detailsOpen[3]" (click)="detailsOpen[3] = !detailsOpen[3]">Hide Grading Left</button>
+            <button class="expandW btn btn-dark text-light" *ngIf="!detailsOpen[3]" (click)="detailsOpen[3] = !detailsOpen[3]">Show Grading Left</button>
+            <br>
+            <div *ngIf="detailsOpen[3]" class="expandW">
+                <div *ngFor="let modulename of keys(Grades)" class="expandW folder text-light folder">
+                    <div class="d-flex flex-row justify-content-start expandW" (click)="checker.checked = !checker.checked" [ngClass]="{'bg-dark':checker.checked}">
+                        <input #checker type="checkbox" [name]="modulename" [id]="modulename" class="invisible">
+                        <label [for]="modulename">({{sum(modulename)}}) - {{modulename}}</label>
+                    </div> 
+                    <div *ngIf="checker.checked">
+                        <div *ngFor="let assignmentname of keys(Grades[modulename])" class="expandW folder text-light folder">
+                            <div class="d-flex flex-row justify-content-start expandW" (click)="checker2.checked = !checker2.checked" [ngClass]="{'bg-dark':checker2.checked}">
+                                <input #checker2 type="checkbox" [name]="assignmentname" [id]="assignmentname" class="invisible">
+                                <label [for]="assignmentname">({{Grades[modulename][assignmentname].length}}) - {{assignmentname}}</label>
+                            </div>
+                            <div *ngIf="checker2.checked" class="d-flex flex-wrap flex-row justify-content-start expandW folder">
+                                <div (click)="submission(item.userid, item.assignmentid, item.submissionid)" *ngFor="let item of Grades[modulename][assignmentname]" class="card text-light">{{item.username}}</div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

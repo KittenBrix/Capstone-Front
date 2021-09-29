@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CertsComponent } from './certs.component';
+import { SubmissionViewComponent } from './submission-view.component';
 
-describe('CertsComponent', () => {
-  let component: CertsComponent;
-  let fixture: ComponentFixture<CertsComponent>;
+describe('SubmissionViewComponent', () => {
+  let component: SubmissionViewComponent;
+  let fixture: ComponentFixture<SubmissionViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CertsComponent ]
+      declarations: [ SubmissionViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CertsComponent);
+    fixture = TestBed.createComponent(SubmissionViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

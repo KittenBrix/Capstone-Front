@@ -127,10 +127,10 @@ export class AttendanceComponent implements OnInit {
           const s = moment(entry.start);
           const e = moment(entry.end);
           const diff = Math.abs(s.diff(e,'minutes'));
-          return prev + diff;
+          return Number(+prev +diff);
         });
         const count = data.length;
-        ws_data.push([user.id, `${user.firstname} ${user.lastname}`,minutes/60.0,count]);
+        ws_data.push([user.id, `${user.firstname} ${user.lastname}`,Number(Math.round(minutes)/60.0),count]);
       }
     } else {
       ws_data.push([`Complete Time Log`],['User id','Name','Total Hours','Total Activity Count']);
