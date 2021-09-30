@@ -1,8 +1,102 @@
-<div class="card expandW">
+<div class="expandW">
     <h1>{{category.name}}</h1>
-    <p> display some stuff about the category.</p>
-    <p>if student, show the assignments in order. showing button to edit (existing submission) or submit (new submission)</p>
-    <p>if teacher, show submissions that can be seen for each assignment as drop down (like in the dashboard). when collapsed, just show counts for current cohort, (submitted, needs grading, missing)</p>
-    <p>if admin, show options to delete/save an assignment from the category, as well as create a new assignment in the category. New assignments affect every student</p>
+    <h4>{{category.description}}</h4>
+    <div *ngIf="isStudent && !isTeacher" class="expandW table">
+        <!-- Not done. Show the assignments in order categorized by module -->
+        <!-- show an EDIT/SUBMIT button for every assignment in every category. -->
+        <div class="row expandW text-light folder outliner row bg-darker">
+            <div class="col12">Name</div>
+            <div class="col">Sent</div>
+            <div class="col">Graded</div>
+            <div class="col">Passed</div>
+            <div class="col"></div>
+        </div>
+        <div *ngFor="let entry of studentData" class="expandW folder text-light outliner row">
+            <div class="col-12">{{entry.name}}</div>
+            <div class="col">{{entry.sid ? "Yes":"No"}}</div>
+            <div class="col">{{entry.sid ? ((entry.grade!=undefined) ? entry.grade: "No") : "-"}}</div>
+            <div class="col">{{(entry.sid &&entry.pass!=undefined) ? (entry.pass ? "Yes": "No") : "-"}}</div>
+            <button class="btn btn-transparent text-light col navigator" (click)="submission(null,entry.id,entry.sid)">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">{{(entry.sid)?"edit":"note_add"}}</mat-icon>
+            </button>
+        </div>
+    </div>
+    <!-- Not done yet. Show assignments with links to every submission, graded or not. highlight ungraded submissions  -->
+    <!-- If teacher show user first/last + grade as cards which link to submissions if they exist. -->
+    <!-- If Site Admin, give add/edit/delete button to alter assignments themselves.-->
+    <div class="expandW table" *ngIf="isTeacher || isAdmin">
+        <div class="d-flex flex-row justify-content-between align-items-center" *ngIf="isTeacher">
+            <p class="flex-grow-1"></p>
+            <p class="text-light" style="margin:0px;">Legend - - - </p>
+            <p class="red student">Failing</p>
+            <p class="gry student">Not Submitted</p>
+            <p class="ylw student">Ungraded</p>
+            <p class="grn student">Passing</p>
+            <p class="flex-grow-1"></p>
+        </div>
+        <div *ngFor="let assn of _assignments" class="expandW folder text-light folder">
+            <div class="d-flex flex-row justify-content-start expandW" [ngClass]="{'bg-dark':checker.checked}">
+                <button *ngIf="isAdmin" class="btn btn-outline-light text-light" (click)="editor.checked = !editor.checked">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">edit</mat-icon>
+                </button>
+                <div class="flex-grow-1" (click)="checker.checked = !checker.checked">
+                    <input #checker type="checkbox" class="invisible">
+                    <input #editor type="checkbox" class="invisible">
+                    <label>{{assn.name}}</label>
+                </div>
+            </div>
+            <div *ngIf="editor.checked && isAdmin">
+                <!-- edit controls -->
+                <h3 *ngIf="message.length" class="red">{{message}}</h3>
+                <div class="expandW d-flex flex-row row">
+                    <button class="btn btn-dark text-light col" (click)="makeEdit(assn.id,assnname.value,description.value,rubric.value)" [disabled]="message.length">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon">save</mat-icon>
+                    </button>
+                    <input type="text" name="assnname" id="assnname" #assnname class="flex-grow-1 col" [value]="assn.name" placeholder="Assignment Name">
+                    <input type="text" name="description" id="description" #description class="flex-grow-1 col" [value]="assn.description" placeholder="Assignment Description">
+                    <input type="text" name="rubric" id="rubric" #rubric class="flex-grow-1 col" [value]="assn.rubric" placeholder="Assignment Rubric">
+                    <button class="btn btn-danger text-light col" (click)="delete(assn.id)" [disabled]="message.length">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="checker.checked && isTeacher" class="d-flex flex-row flex-wrap justify-content-start">
+                <button (click)="submission(item.userid, assn.id, item.sid)" 
+                *ngFor="let item of _studentGrades[assn.id]" 
+                class="text-light student"
+                [ngClass]="{'gry':item.sid==undefined,'grn':item.pass,'red':!item.pass,'ylw':item.sid!=undefined&&item.grade==undefined}"
+                >
+                    {{(item.grade!=undefined)?('('+item.grade+')'):''}} {{item.username}}
+                </button>
+            </div>
+        </div>
+        <div *ngIf="isAdmin" class="expandW folder text-light folder">
+            <div class="d-flex flex-row justify-content-start expandW" [ngClass]="{'bg-dark':checker1.checked}">
+                <button *ngIf="isAdmin" class="btn btn-outline-light text-light" (click)="editor1.checked = !editor1.checked">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon">note_add</mat-icon>
+                </button>
+                <div class="flex-grow-1" (click)="checker1.checked = !checker1.checked">
+                    <input #checker1 type="checkbox" class="invisible">
+                    <input #editor1 type="checkbox" class="invisible">
+                    <label>Add Assignment</label>
+                </div>
+            </div>
+            <div *ngIf="editor1.checked && isAdmin">
+                <!-- edit controls -->
+                <h3 *ngIf="message.length" class="red">{{message}}</h3>
+                <div class="expandW d-flex flex-row row">
+                    <button class="btn btn-dark text-light col" (click)="makeEdit(undefined,assnname1.value,description1.value,rubric1.value)" [disabled]="message.length">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon">save</mat-icon>
+                    </button>
+                    <input type="text" name="assnname1" id="assnname1" #assnname1 class="flex-grow-1 col" placeholder="Assignment Name">
+                    <input type="text" name="description1" id="description1" #description1 class="flex-grow-1 col" placeholder="Assignment Description">
+                    <input type="text" name="rubric1" id="rubric1" #rubric1 class="flex-grow-1 col" placeholder="Assignment Rubric">
+                    <button class="btn btn-dark text-light col" (click)="editor1.checked = false" [disabled]="message.length">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon">cancel</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

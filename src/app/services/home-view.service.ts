@@ -3,9 +3,7 @@ import { Injectable, ViewContainerRef } from '@angular/core';
 import { AssignmentsComponent } from 'app/assignments/assignments.component';
 import { SubmissionViewComponent } from 'app/assignments/submission-view/submission-view.component';
 import { AttendanceComponent } from 'app/cohort/attendance/attendance.component';
-import { GoogleclassroomComponent } from 'app/cohort/googleclassroom/googleclassroom.component';
 import { PeopleComponent } from 'app/cohort/people/people.component';
-import { RecordingsComponent } from 'app/cohort/recordings/recordings.component';
 import { SchedulerComponent } from 'app/cohort/scheduler/scheduler.component';
 import { ViewComponent } from 'app/cohort/view/view.component';
 import { userRole } from 'app/common/types';
@@ -21,8 +19,6 @@ export class HomeViewService {
     'People',
     'Schedule',
     'Attendance',
-    'Recordings',
-    'gClass',
     'Assignments',
     'Submissions'
   ];
@@ -31,8 +27,6 @@ export class HomeViewService {
     PeopleComponent,
     SchedulerComponent,
     AttendanceComponent,
-    RecordingsComponent,
-    GoogleclassroomComponent,
     AssignmentsComponent,
     SubmissionViewComponent
   ];

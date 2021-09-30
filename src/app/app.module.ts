@@ -17,8 +17,6 @@ import { ViewComponent } from './cohort/view/view.component';
 import { PeopleComponent } from './cohort/people/people.component';
 import { SchedulerComponent } from './cohort/scheduler/scheduler.component';
 import { AttendanceComponent } from './cohort/attendance/attendance.component';
-import { RecordingsComponent } from './cohort/recordings/recordings.component';
-import { GoogleclassroomComponent } from './cohort/googleclassroom/googleclassroom.component';
 import { DataListComponent } from './util/data-list/data-list.component';
 import { DataEntryComponent } from './util/data-entry/data-entry.component';
 import { RolesComponent } from './home/settings/roles/roles.component';
@@ -57,8 +55,6 @@ import { SubmissionViewComponent } from './assignments/submission-view/submissio
     PeopleComponent,
     SchedulerComponent,
     AttendanceComponent,
-    RecordingsComponent,
-    GoogleclassroomComponent,
     DataListComponent,
     DataEntryComponent,
     RolesComponent,

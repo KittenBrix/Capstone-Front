@@ -1,0 +1,77 @@
+label {
+    font-size: large;
+    padding-right: 1em;
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+a {
+    font-style: normal;
+}
+
+.outliner{
+    border-bottom-color: rgba($color: #000000, $alpha: 0.3);
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
+    border-radius: 0.5em;
+}
+
+.table {
+    border-radius: 0.5em;
+    border-width: 3px;
+    border-color: rgba($color: #000000, $alpha: 0.5);
+    border-style: solid;
+    padding-bottom: 0em;
+}
+.table>div:nth-child(2n){
+    background-color: rgba($color: #000000, $alpha: 0.3);
+}
+.table>div:nth-child(2n+1){
+    border-width: 0px;
+}
+.row{
+    margin-left: 0em;
+}
+.navigator {
+    margin-top: -1.25em;
+    margin-right: 0.25em;
+    padding: 0px;
+    min-width: fit-content;
+    background-color: rgba($color: #000, $alpha: 0.2);
+    border-radius: 100em;
+}
+icon{
+    padding: 0px;
+    margin: 0px;
+}
+.red{
+    color: red !important;
+    border-color: red !important;
+    background-color: darken($color: red, $amount: 60%);
+}
+.grn{
+    color: lightgreen !important;
+    border-color: lightgreen !important;
+    background-color: darken($color: lightgreen, $amount: 60%);
+}
+.ylw{
+    color: yellow !important;
+    border-color: yellow !important;
+    background-color: darken($color: yellow, $amount: 60%);
+}
+.gry{
+    color: lightgray !important;
+    border-color: lightgray !important;
+    background-color: darken($color: lightgray, $amount: 60%);
+}
+.student{
+    margin: 0.1em;
+    padding: 0px;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    border-radius: 1em;
+    border-style: solid;
+    border-width: 0.1em !important;
+}
