@@ -26,3 +26,16 @@ a {
     border-bottom-style: solid;
     margin-bottom: 1em;
 }
+
+.student{
+    margin: 0.1em;
+    padding: 0.25em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    border-radius: 1em;
+    border-style: solid;
+    border-width: 0.1em !important;
+    color: yellow !important;
+    border-color: yellow !important;
+    background-color: darken($color: yellow, $amount: 40%);
+}

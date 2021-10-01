@@ -73,7 +73,7 @@
                                 <label [for]="assignmentname">({{Grades[modulename][assignmentname].length}}) - {{assignmentname}}</label>
                             </div>
                             <div *ngIf="checker2.checked" class="d-flex flex-wrap flex-row justify-content-start expandW folder">
-                                <div (click)="submission(item.userid, item.assignmentid, item.submissionid)" *ngFor="let item of Grades[modulename][assignmentname]" class="card text-light">{{item.username}}</div>
+                                <div (click)="submission(item.userid, item.assignmentid, item.submissionid)" *ngFor="let item of Grades[modulename][assignmentname]" class="text-light student">{{item.username}}</div>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,48 @@
-<h1>{{data()}}</h1>
-<div *ngIf="homeView.submissionData">
-<p>red</p>
-</div>
-<div *ngIf="!homeView.submissionData">
-<p>blue</p>
+<H1 *ngIf="!subData">No submission has been selected, going home....</H1>
+<div *ngIf="subData" class="expandW card expandH d-flex flex-column">
+    <div class="expandW assignmentView d-flex flex-row">
+        <div class="expandH d-flex flex-column justify-content-start align-items-center flex-grow-1">
+            <h6>{{"submission (" + ((submission && submission.id) ? submission.id : '-') + ") for userid: " + (submission ? submission.userid: '' )+ " on assignmentid: " + (assignment? assignment.id: '')}}</h6>
+            <H3 class="text-light bg-dark">Assignment: {{assignment ? assignment.name : ''}}</H3>
+            <p class="expandW flex-grow-1">{{assignment ? assignment.description : ''}}</p>
+        </div>
+        <div class="expandH d-flex flex-column align-items-start justify-content-between flex-grow-1">
+            <div class="expandW card flex-grow-1">
+                <p>Rubric:</p>
+                <p>{{assignment ? assignment.rubric : 'TBD'}}</p>
+            </div>
+        </div>
+    </div>
+    <p *ngIf="message && message.length"class="text-danger bg-dark expandW">{{message}}</p>
+    <div class="expandW remainingView d-flex flex-row">
+        <div class="expandH d-flex flex-column flex-grow-1" id="content">
+            <!-- submission grades/pass -->
+
+            <div class="expandW d-flex flex-row justify-content-around">
+                <div class="d-flex flex-column align-items-center">
+                    <p>Grade<p>
+                    <input #assessmentgrade id="grader" [hidden]="!isGrader" type="number"  [value]="submission ? submission.grade: ''">
+                    <p *ngIf="!isGrader">{{(submission && submission.grade >= 0) ? submission.grade : '-'}}</p>
+                </div>
+                <div class="d-flex flex-column align-items-center">
+                    <p>Passed</p>
+                    <div class="d-flex flex-row" *ngIf="isGrader">
+                        <button class="btn btn-dark move" (click)="move(-1)"><mat-icon>chevron_left</mat-icon></button>
+                        <p >{{(submission.pass==null)?'undecided':(submission.pass)?'yes':'no'}}</p>
+                        <button class="btn btn-dark move" (click)="move(1)"><mat-icon>chevron_right</mat-icon></button>
+                    </div>
+                    <p *ngIf="!isGrader">{{(submission && submission.pass != null) ? submission.pass : 'Undecided'}}</p>
+                </div>
+            </div>
+            <!-- content of the thing. big ass text box -->
+            <div class="expandW flex-grow-1">
+                <textarea #submissioncontent cols="30" rows="10">{{submission ? submission.text : ''}}</textarea>
+            </div>
+        </div>
+        <div class="expandH">
+            <button *ngIf="isGrader" class="btn btn-dark expandH save" (click)="grade(submissioncontent.value, assessmentgrade.value)"><mat-icon>check</mat-icon></button>
+            <button *ngIf="!isGrader && submission && (submission.id??-1==-1)" class="btn btn-dark expandH save" (click)="save(submissioncontent.value)"><mat-icon>send</mat-icon></button>
+            <button *ngIf="!isGrader && submission && (submission.id??-1>0)" class="btn btn-dark expandH save" (click)="save(submissioncontent.value)"><mat-icon>save</mat-icon></button>
+        </div>
+    </div>
 </div>

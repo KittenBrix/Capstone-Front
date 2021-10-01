@@ -109,7 +109,7 @@ export class CategoryViewComponent implements OnInit, OnChanges {
     console.log('makeedit',payload);
     const data = (id) ? await this.rest.req('post',`assignments/${id}`,payload) : await this.rest.req('post','assignments/',payload);
     console.log('makeedit',data);
-    this.message = data.affectedRows ? (data.changedRows ? "Assignment updated." : (data.insertID ? "Assignment successfully added.":"No changes were made.")) : "Error saving or editing this assignment."
+    this.message = data.affectedRows ? (data.changedRows ? "Assignment updated." : (data.insertId ? "Assignment successfully added.":"No changes were made.")) : "Error saving or editing this assignment."
     setTimeout(async () => {
       await this.getContent(this._cat);
       this.message = '';
@@ -119,8 +119,7 @@ export class CategoryViewComponent implements OnInit, OnChanges {
 
   public async delete(assnid){
     const data = await this.rest.req('delete',`assignments/${assnid}`);
-    console.log('DELETEEEEE0', data);
-    this.message = data.err ? data.msg : JSON.stringify(data);
+    this.message = data.affectedRows ? "Assignment marked for deletion" : "Could not delete this assignment.";
     setTimeout(async () => {
       await this.getContent(this._cat);
       this.message = '';
