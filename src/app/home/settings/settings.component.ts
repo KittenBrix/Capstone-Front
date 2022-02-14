@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class SettingsComponent implements OnInit {
   fname:string ='';
   lname:string = '';
+  username:string='';
   roleid:number = 0;
   nameError: string = '';
   defaultError: string = '';
@@ -277,6 +278,7 @@ export class SettingsComponent implements OnInit {
     this.clockifyEmail = data.clockifyemail;
     this.fname = data.firstname;
     this.lname = data.lastname;
+    this.username = data.username;
     this.discordInfo = data.discordid;
     const X = this.loading.indexOf('settings');
     if (X >= 0){

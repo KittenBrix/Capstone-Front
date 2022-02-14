@@ -4,8 +4,11 @@
 
 export const environment = {
   production: false,
+  // apiUrl: 'http://45.33.53.236:3001'
   apiUrl: 'http://localhost:3001'
 };
+
+// npx angular-cli-ghpages --dir=dist/front
 
 /*
  * For easier debugging in development mode, you can import the following file
